@@ -1,8 +1,12 @@
 [gd_scene format=3 uid="uid://bm6bjuqu5hwxu"]
 
+[ext_resource type="Script" uid="uid://dlq03wvdrom12" path="res://main/camera.gd" id="1_2fwfh"]
+[ext_resource type="Texture2D" uid="uid://b08fvofohqolu" path="res://icon.svg" id="2_ph3h8"]
+
 [node name="Game" type="Node2D" unique_id=2051286246]
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1715976991]
+script = ExtResource("1_2fwfh")
 
 [node name="GUI" type="CanvasLayer" parent="." unique_id=558796995]
 
@@ -11,3 +15,15 @@
 [node name="Terrain" type="Node2D" parent="." unique_id=786048734]
 
 [node name="Buildings" type="Node2D" parent="." unique_id=1261149160]
+
+[node name="TestObject" type="Sprite2D" parent="." unique_id=1442042997]
+position = Vector2(1, -1)
+texture = ExtResource("2_ph3h8")
+
+[node name="TestObject2" type="Sprite2D" parent="." unique_id=1814355198]
+position = Vector2(387, 124)
+texture = ExtResource("2_ph3h8")
+
+[node name="TestObject3" type="Sprite2D" parent="." unique_id=1923142020]
+position = Vector2(-367, 258)
+texture = ExtResource("2_ph3h8")
