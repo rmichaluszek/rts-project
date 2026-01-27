@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bm6bjuqu5hwxu"]
+
+[node name="Game" type="Node2D" unique_id=2051286246]
+
+[node name="Camera" type="Camera2D" parent="." unique_id=1715976991]
+
+[node name="GUI" type="CanvasLayer" parent="." unique_id=558796995]
+
+[node name="Units" type="Node2D" parent="." unique_id=2072100319]
+
+[node name="Terrain" type="Node2D" parent="." unique_id=786048734]
+
+[node name="Buildings" type="Node2D" parent="." unique_id=1261149160]
