@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bm6bjuqu5hwxu"]
 
 [ext_resource type="Script" uid="uid://dlq03wvdrom12" path="res://main/camera.gd" id="1_2fwfh"]
+[ext_resource type="PackedScene" uid="uid://ctgga3l1cs7f1" path="res://objects/unit/unit.tscn" id="2_46yon"]
 [ext_resource type="Texture2D" uid="uid://b08fvofohqolu" path="res://icon.svg" id="2_ph3h8"]
 
 [node name="Game" type="Node2D" unique_id=2051286246]
@@ -11,6 +12,12 @@ script = ExtResource("1_2fwfh")
 [node name="GUI" type="CanvasLayer" parent="." unique_id=558796995]
 
 [node name="Units" type="Node2D" parent="." unique_id=2072100319]
+
+[node name="Unit" parent="Units" unique_id=846912926 instance=ExtResource("2_46yon")]
+position = Vector2(-310, -154)
+
+[node name="Unit2" parent="Units" unique_id=215243216 instance=ExtResource("2_46yon")]
+position = Vector2(370, -115)
 
 [node name="Terrain" type="Node2D" parent="." unique_id=786048734]
 

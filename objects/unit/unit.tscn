@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://ctgga3l1cs7f1"]
+
+[ext_resource type="Texture2D" uid="uid://b08fvofohqolu" path="res://icon.svg" id="1_3kuh8"]
+[ext_resource type="Script" uid="uid://cawmyoewfvh4l" path="res://objects/unit/unit.gd" id="1_wgm2u"]
+
+[node name="Unit" type="Node2D" unique_id=846912926]
+script = ExtResource("1_wgm2u")
+
+[node name="Selected" type="Sprite2D" parent="." unique_id=843893369]
+visible = false
+modulate = Color(0.10980392, 1, 0, 1)
+scale = Vector2(1.2731086, 1.2731086)
+texture = ExtResource("1_3kuh8")
+
+[node name="LowerBody" type="Sprite2D" parent="." unique_id=1656280255]
+texture = ExtResource("1_3kuh8")
+
+[node name="UpperBody" type="Sprite2D" parent="." unique_id=1129787732]
+self_modulate = Color(0.34117648, 0.5176471, 1, 1)
+scale = Vector2(0.546875, 0.546875)
+texture = ExtResource("1_3kuh8")
+
+[node name="StateDebug" type="Label" parent="." unique_id=829137477]
+offset_left = -62.0
+offset_top = -98.0
+offset_right = 64.0
+offset_bottom = -69.0
+text = "State: IDLE"
+horizontal_alignment = 1
