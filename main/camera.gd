@@ -30,7 +30,27 @@ func _input(event):
 			else:
 				selecting = false
 				queue_redraw()
-				
+				select(Vector4(select_start.x,select_start.y,get_global_mouse_position().x,get_global_mouse_position().y))
+
+func select(rect:Vector4):
+	var array : Array  = []
+	
+	# swap if the rect is drawn from right to left / down to bottom
+	if rect.x > rect.z: 
+		var temp = rect.x
+		rect.x = rect.z
+		rect.z = temp
+	if rect.y > rect.w: 
+		var temp = rect.y
+		rect.y = rect.w
+		rect.w = temp
+		
+	for u in get_parent().get_node("Units").get_children():
+		print(u.position, " XD   ", rect)
+		if u.position.x >= rect.x && u.position.x < rect.z && u.position.y > rect.y && u.position.y < rect.w:
+			array.push_back(u)
+	get_parent().get_node("GroupManager").set_selected_units(array)
+
 func _draw() -> void:
 	if(selecting):
 		draw_rect(Rect2(select_start-position,get_global_mouse_position()-select_start),Color(0.255, 0.475, 1.0, 0.439))

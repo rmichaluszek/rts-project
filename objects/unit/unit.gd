@@ -1,10 +1,11 @@
 extends Node2D
 
 const UnitState = preload("res://objects/unit/unit_state.gd").UnitState
+const Teams = preload("res://main/teams.gd").Teams
 
 @export var isSelected: bool = false
 @export var currentState: UnitState = UnitState.IDLE
-
+@export var team: Teams = Teams.BLUE
 
 func _ready() -> void:
 	set_state(UnitState.IDLE)

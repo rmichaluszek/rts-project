@@ -1,10 +1,18 @@
 [gd_scene format=3 uid="uid://bm6bjuqu5hwxu"]
 
 [ext_resource type="Script" uid="uid://dlq03wvdrom12" path="res://main/camera.gd" id="1_2fwfh"]
+[ext_resource type="Script" uid="uid://bxolymvx6aom2" path="res://main/group_manager.gd" id="1_46yon"]
+[ext_resource type="Script" uid="uid://b3buydj2ev8ek" path="res://main/game.gd" id="1_vfw6y"]
 [ext_resource type="PackedScene" uid="uid://ctgga3l1cs7f1" path="res://objects/unit/unit.tscn" id="2_46yon"]
 [ext_resource type="Texture2D" uid="uid://b08fvofohqolu" path="res://icon.svg" id="2_ph3h8"]
 
 [node name="Game" type="Node2D" unique_id=2051286246]
+script = ExtResource("1_vfw6y")
+
+[node name="GroupManager" type="Node2D" parent="." unique_id=497985333]
+script = ExtResource("1_46yon")
+
+[node name="ResourceManager" type="Node2D" parent="." unique_id=2062362989]
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1715976991]
 z_index = 999
