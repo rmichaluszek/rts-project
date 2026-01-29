@@ -39,6 +39,15 @@ path_desired_distance = 5.0
 target_desired_distance = 5.0
 path_max_distance = 10.0
 avoidance_enabled = true
-radius = 64.0
-neighbor_distance = 150.0
+radius = 70.0
+neighbor_distance = 300.0
 max_neighbors = 20
+
+[node name="TargetPositionMark" type="Sprite2D" parent="." unique_id=1533393162]
+visible = false
+modulate = Color(0, 1, 0, 1)
+top_level = true
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_3kuh8")
+
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

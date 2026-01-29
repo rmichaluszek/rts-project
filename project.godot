@@ -15,6 +15,11 @@ run/main_scene="uid://bm6bjuqu5hwxu"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[debug]
+
+shapes/navigation/2d/geometry_edge_color=Color(0.5019608, 1, 1, 0)
+shapes/navigation/2d/geometry_face_color=Color(0.5019608, 1, 1, 0)
+
 [input]
 
 scroll_up={
