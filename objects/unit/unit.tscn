@@ -3,7 +3,10 @@
 [ext_resource type="Texture2D" uid="uid://b08fvofohqolu" path="res://icon.svg" id="1_3kuh8"]
 [ext_resource type="Script" uid="uid://cawmyoewfvh4l" path="res://objects/unit/unit.gd" id="1_wgm2u"]
 
-[node name="Unit" type="Node2D" unique_id=846912926]
+[sub_resource type="CircleShape2D" id="CircleShape2D_wgm2u"]
+radius = 61.13101
+
+[node name="Unit" type="CharacterBody2D" unique_id=277028235]
 script = ExtResource("1_wgm2u")
 
 [node name="Selected" type="Sprite2D" parent="." unique_id=843893369]
@@ -27,3 +30,15 @@ offset_right = 64.0
 offset_bottom = -69.0
 text = "State: IDLE"
 horizontal_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=179383426]
+shape = SubResource("CircleShape2D_wgm2u")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=976948394]
+path_desired_distance = 5.0
+target_desired_distance = 5.0
+path_max_distance = 10.0
+avoidance_enabled = true
+radius = 64.0
+neighbor_distance = 150.0
+max_neighbors = 20

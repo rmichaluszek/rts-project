@@ -31,7 +31,14 @@ func _input(event):
 				selecting = false
 				queue_redraw()
 				select(Vector4(select_start.x,select_start.y,get_global_mouse_position().x,get_global_mouse_position().y))
-
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			if event.pressed:
+				# if clicked on the ground, there is move command
+				get_parent().get_node("GroupManager").move_command(get_global_mouse_position())
+				# if clicked on unit or building, move command and try to attack/interact,
+			else:
+				pass
+				
 func select(rect:Vector4):
 	var array : Array  = []
 	

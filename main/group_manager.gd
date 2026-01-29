@@ -10,6 +10,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+func move_command(pos):
+	if(current_selected_units!=[]):
+		for u in current_selected_units:
+			u.set_destination(pos)
+
 func set_selected_units(array: Array):
 	
 	current_selected_units = []
