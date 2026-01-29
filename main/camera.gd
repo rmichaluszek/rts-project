@@ -5,7 +5,7 @@ extends Camera2D
 @export var min_zoom: float = 0.2
 @export var max_zoom: float = 1.0
 @export var drag_speed: float = 1.0
-@export var camera_safezone: Vector4 = Vector4(-2000,-2000,2000,2000)
+@export var camera_safezone: Vector4 = Vector4(0,0,12800,12800)
 
 
 var dragging: bool = false
