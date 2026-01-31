@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bxolymvx6aom2" path="res://main/group_manager.gd" id="1_46yon"]
 [ext_resource type="Script" uid="uid://b3buydj2ev8ek" path="res://main/game.gd" id="1_vfw6y"]
 [ext_resource type="PackedScene" uid="uid://ctgga3l1cs7f1" path="res://objects/unit/unit.tscn" id="2_46yon"]
+[ext_resource type="Script" uid="uid://3sh5rc1dfhqr" path="res://main/gui.gd" id="4_2c7eb"]
 [ext_resource type="StyleBox" uid="uid://bjv66saxokgf6" path="res://assets/resources/gui_background.tres" id="4_3qcir"]
 [ext_resource type="Texture2D" uid="uid://b08fvofohqolu" path="res://icon.svg" id="5_jc0vi"]
 [ext_resource type="Texture2D" uid="uid://cglla45kmpjg3" path="res://assets/textures/terrain.png" id="5_vfw6y"]
@@ -60,6 +61,7 @@ z_index = 999
 script = ExtResource("1_2fwfh")
 
 [node name="GUI" type="CanvasLayer" parent="." unique_id=558796995]
+script = ExtResource("4_2c7eb")
 
 [node name="Screen" type="Control" parent="GUI" unique_id=1112098900]
 layout_mode = 3
@@ -100,6 +102,11 @@ stretch_mode = 5
 layout_mode = 2
 text = "520"
 
+[node name="LabelMetalIncome" type="Label" parent="GUI/Screen/Resources/Container" unique_id=2054217058]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+text = "+10"
+
 [node name="VSeparator" type="VSeparator" parent="GUI/Screen/Resources/Container" unique_id=1568776546]
 layout_mode = 2
 
@@ -113,6 +120,11 @@ stretch_mode = 5
 layout_mode = 2
 text = "21"
 
+[node name="LabelOilIncome" type="Label" parent="GUI/Screen/Resources/Container" unique_id=1238202470]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+text = "+5"
+
 [node name="VSeparator2" type="VSeparator" parent="GUI/Screen/Resources/Container" unique_id=1662262140]
 layout_mode = 2
 
@@ -125,6 +137,11 @@ stretch_mode = 5
 [node name="LabelCrystal" type="Label" parent="GUI/Screen/Resources/Container" unique_id=644809991]
 layout_mode = 2
 text = "8"
+
+[node name="LabelCrystalIncome" type="Label" parent="GUI/Screen/Resources/Container" unique_id=930611901]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+text = "+1"
 
 [node name="Time" type="Panel" parent="GUI/Screen" unique_id=1519370838]
 custom_minimum_size = Vector2(350, 30)
