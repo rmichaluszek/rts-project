@@ -16,7 +16,14 @@ func update_time(time):
 	var minutes := total_seconds / 60
 	var seconds := total_seconds % 60
 	time_gui.get_node("Label").text = "%02d:%02d" % [minutes, seconds]
-
+	
+func update_resources(metal,oil,crystal,metal_income,oil_income,crystal_income):
+	resources_gui.get_node("Container/LabelMetal").text = str(floori(metal))
+	resources_gui.get_node("Container/LabelMetalIncome").text = "+"+str(metal_income)
+	resources_gui.get_node("Container/LabelOil").text = str(floori(oil))
+	resources_gui.get_node("Container/LabelOilIncome").text = "+"+str(oil_income)
+	resources_gui.get_node("Container/LabelCrystal").text = str(floori(crystal))
+	resources_gui.get_node("Container/LabelCrystalIncome").text = "+"+str(crystal_income)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
