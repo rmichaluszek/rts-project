@@ -53,7 +53,6 @@ func select(rect:Vector4):
 		rect.w = temp
 		
 	for u in get_parent().get_node("Units").get_children():
-		print(u.position, " XD   ", rect)
 		if u.position.x >= rect.x && u.position.x < rect.z && u.position.y > rect.y && u.position.y < rect.w:
 			array.push_back(u)
 	get_parent().get_node("GroupManager").set_selected_units(array)

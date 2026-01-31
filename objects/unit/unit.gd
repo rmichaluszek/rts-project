@@ -37,8 +37,15 @@ func _physics_process(delta: float) -> void:
 	for i in get_slide_collision_count():
 		var c = get_slide_collision(i)
 		if c.get_collider() is CharacterBody2D:
-			if c.get_collider().currentState == UnitState.IDLE:
-				set_state(UnitState.IDLE)
+			if is_instance_valid(movement_group.get_ref()) && is_instance_valid(c.get_collider().movement_group):
+				var units = movement_group.get_ref().unitsFinished
+				print("finished ",units)
+				for u in units:
+					if u==c.get_collider():
+						set_state(UnitState.IDLE)
+						velocity = Vector2.ZERO
+						navigation_agent.target_position = position
+						
 
 func pathfinfing_setup():
 	await get_tree().physics_frame
@@ -59,22 +66,19 @@ func set_destination(pos: Vector2):
 		navigation_agent.avoidance_priority = 1
 		
 func set_movement_group(group):
-	if movement_group == group:
-		return
 	# Leave old group first
-	if movement_group != null:
-		if is_instance_valid(movement_group):
+	if movement_group:
+		if movement_group!=null && is_instance_valid(movement_group.get_ref()):
 			movement_group.get_ref().remove_unit(self)
-	print(movement_group)
 	movement_group = group
 	
 func set_state(state: UnitState):
-	if state == UnitState.IDLE:
-		if(movement_group!=null && is_instance_valid(movement_group)):
-			movement_group.get_ref().remove_unit(self)
-			movement_group = null
 	$StateDebug.text = "STATE: " + str(UnitState.keys()[state])
 	currentState = state
+	
+	if(state == UnitState.IDLE):
+		if movement_group!=null && is_instance_valid(movement_group.get_ref()) :
+			movement_group.get_ref().mark_unit_as_finished(self)
 	
 func get_path_length():
 	var path = navigation_agent.get_current_navigation_path()
