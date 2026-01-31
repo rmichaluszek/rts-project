@@ -13,12 +13,17 @@ func _ready() -> void:
 func display_unit(unit_ref: WeakRef):
 	unit_info_gui.show_unit(unit_ref)
 
+func display_units(units_ref_aray: Array[WeakRef]):
+	selection_gui.display_units(units_ref_aray)
 	
 func update_time(time):
 	var total_seconds := int(time)
 	var minutes := total_seconds / 60
 	var seconds := total_seconds % 60
 	time_gui.get_node("Label").text = "%02d:%02d" % [minutes, seconds]
+	
+	
+	$Screen/Time/Fps.text = str(Engine.get_frames_per_second())
 	
 func update_resources(metal,oil,crystal,metal_income,oil_income,crystal_income):
 	resources_gui.get_node("Container/LabelMetal").text = str(floori(metal))

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://djbmedhi4e1c2"]
+
+[ext_resource type="Texture2D" uid="uid://b08fvofohqolu" path="res://icon.svg" id="1_a26bb"]
+
+[node name="Unit0" type="TextureRect"]
+clip_contents = true
+custom_minimum_size = Vector2(100, 100)
+texture = ExtResource("1_a26bb")
+expand_mode = 2
+stretch_mode = 5

@@ -6,7 +6,11 @@ func _ready() -> void:
 	hide_unit()
 
 func show_unit(unit_ref: WeakRef):
+	if unit_ref==null:
+		hide_unit()
+		return
 	if(is_instance_valid(unit_ref)):
+		
 		for c in get_children():
 			c.visible = true
 		currentUnitDisplayedRef = unit_ref

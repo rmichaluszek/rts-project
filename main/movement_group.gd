@@ -3,8 +3,8 @@ extends Node2D
 
 const UnitState = preload("res://objects/unit/unit_state.gd").UnitState
 
-var units: Array[Node] = []
-var unitsFinished: Array[Node] = []
+var units: Array[WeakRef] = []
+var unitsFinished: Array[WeakRef] = []
 var target_position: Vector2
 
 func setup(units_array: Array, target: Vector2):
@@ -13,19 +13,19 @@ func setup(units_array: Array, target: Vector2):
 	var self_weakref = weakref(self)
 	for unit in units:
 		if is_instance_valid(unit):
-			unit.set_movement_group(self_weakref)
+			unit.get_ref().set_movement_group(self_weakref)
 
 func check_for_disband():
 	for u in units:
-		if u.currentState != UnitState.IDLE:
+		if u.get_ref().currentState != UnitState.IDLE:
 			return
 	if is_instance_valid(self):
 		disband()
 
 func mark_unit_as_finished(unit):
 	for u in range(0,units.size()):
-		if units[u] == unit:
-			unitsFinished.push_back(unit)
+		if units[u].get_ref() == unit:
+			unitsFinished.push_back(weakref(unit))
 			units.remove_at(u)
 			check_for_disband()
 			return

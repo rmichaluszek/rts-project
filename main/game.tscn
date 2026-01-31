@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://bm6bjuqu5hwxu"]
+[gd_scene load_steps=13 format=4 uid="uid://bm6bjuqu5hwxu"]
 
 [ext_resource type="Script" uid="uid://dlq03wvdrom12" path="res://main/camera.gd" id="1_2fwfh"]
 [ext_resource type="Script" uid="uid://bxolymvx6aom2" path="res://main/group_manager.gd" id="1_46yon"]
@@ -8,6 +8,8 @@
 [ext_resource type="StyleBox" uid="uid://bjv66saxokgf6" path="res://assets/resources/gui_background.tres" id="4_3qcir"]
 [ext_resource type="Texture2D" uid="uid://b08fvofohqolu" path="res://icon.svg" id="5_jc0vi"]
 [ext_resource type="Script" uid="uid://bkfmck3nigrxy" path="res://gui/unit_info.gd" id="7_4u4fy"]
+[ext_resource type="Script" uid="uid://bcwf6kj80q4c2" path="res://main/units_selected.gd" id="7_hlcqn"]
+[ext_resource type="PackedScene" path="res://objects/gui/units_selected_item.tscn" id="7_j015t"]
 [ext_resource type="TileSet" uid="uid://b716ony35lmqd" path="res://assets/resources/main_tile_set.tres" id="8_2c7eb"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_3qcir"]
@@ -133,6 +135,18 @@ offset_bottom = 26.0
 grow_horizontal = 0
 text = "21:22"
 
+[node name="Fps" type="Label" parent="GUI/Screen/Time"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -105.0
+offset_top = 3.0
+offset_right = -64.0
+offset_bottom = 26.0
+grow_horizontal = 0
+text = "FPS:"
+
 [node name="Minimap" type="Panel" parent="GUI/Screen"]
 custom_minimum_size = Vector2(205, 205)
 layout_mode = 1
@@ -207,18 +221,40 @@ offset_right = 290.0
 offset_bottom = 195.0
 
 [node name="UnitsSelected" type="Panel" parent="GUI/Screen"]
-custom_minimum_size = Vector2(0, 205)
+clip_contents = true
+custom_minimum_size = Vector2(400, 205)
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 216.0
+offset_left = -910.0
 offset_top = -205.0
-offset_right = -484.0
-grow_horizontal = 2
+offset_right = -487.0
+grow_horizontal = 0
 grow_vertical = 0
+mouse_force_pass_scroll_events = false
 theme_override_styles/panel = ExtResource("4_3qcir")
+script = ExtResource("7_hlcqn")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="GUI/Screen/UnitsSelected"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="GUI/Screen/UnitsSelected/ScrollContainer"]
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+columns = 4
+
+[node name="Unit0" parent="GUI/Screen/UnitsSelected/ScrollContainer/GridContainer" instance=ExtResource("7_j015t")]
+layout_mode = 2
 
 [node name="UnitInfo" type="Panel" parent="GUI/Screen"]
 custom_minimum_size = Vector2(0, 205)

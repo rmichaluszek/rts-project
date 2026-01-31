@@ -46,7 +46,7 @@ func _physics_process(delta: float) -> void:
 			if is_instance_valid(movement_group.get_ref()) && is_instance_valid(c.get_collider().movement_group):
 				var units = movement_group.get_ref().unitsFinished
 				for u in units:
-					if u==c.get_collider():
+					if u.get_ref()==c.get_collider():
 						set_state(UnitState.IDLE)
 						velocity = Vector2.ZERO
 						navigation_agent.target_position = position
