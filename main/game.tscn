@@ -63,7 +63,7 @@ script = ExtResource("1_2fwfh")
 z_index = 10
 
 [node name="Unit" parent="Units" unique_id=846912926 instance=ExtResource("2_46yon")]
-position = Vector2(670, 485)
+position = Vector2(1726, 922)
 
 [node name="Unit2" parent="Units" unique_id=215243216 instance=ExtResource("2_46yon")]
 position = Vector2(1119, 379)
@@ -80,29 +80,38 @@ position = Vector2(875, 526)
 [node name="Unit6" parent="Units" unique_id=835514402 instance=ExtResource("2_46yon")]
 position = Vector2(732, 669)
 
-[node name="Unit7" parent="Units" unique_id=2093629386 instance=ExtResource("2_46yon")]
-position = Vector2(732, 669)
+[node name="Unit7" parent="Units" unique_id=583985706 instance=ExtResource("2_46yon")]
+position = Vector2(538, 658)
 
-[node name="Unit8" parent="Units" unique_id=1782778491 instance=ExtResource("2_46yon")]
-position = Vector2(732, 669)
+[node name="Unit8" parent="Units" unique_id=1995798530 instance=ExtResource("2_46yon")]
+position = Vector2(452, 490)
 
-[node name="Unit9" parent="Units" unique_id=1476295484 instance=ExtResource("2_46yon")]
-position = Vector2(732, 669)
+[node name="Unit9" parent="Units" unique_id=326616532 instance=ExtResource("2_46yon")]
+position = Vector2(526, 344)
 
-[node name="Unit10" parent="Units" unique_id=1692257838 instance=ExtResource("2_46yon")]
-position = Vector2(732, 669)
+[node name="Unit10" parent="Units" unique_id=1686831308 instance=ExtResource("2_46yon")]
+position = Vector2(711, 293)
 
-[node name="Unit11" parent="Units" unique_id=14674412 instance=ExtResource("2_46yon")]
-position = Vector2(732, 669)
+[node name="Unit11" parent="Units" unique_id=1075603143 instance=ExtResource("2_46yon")]
+position = Vector2(371, 239)
 
-[node name="Unit12" parent="Units" unique_id=1027513506 instance=ExtResource("2_46yon")]
-position = Vector2(732, 669)
+[node name="Unit12" parent="Units" unique_id=51706676 instance=ExtResource("2_46yon")]
+position = Vector2(248, 387)
 
-[node name="Unit13" parent="Units" unique_id=1900412656 instance=ExtResource("2_46yon")]
-position = Vector2(732, 669)
+[node name="Unit13" parent="Units" unique_id=1923099696 instance=ExtResource("2_46yon")]
+position = Vector2(291, 604)
 
-[node name="Unit14" parent="Units" unique_id=275668656 instance=ExtResource("2_46yon")]
-position = Vector2(732, 669)
+[node name="Unit14" parent="Units" unique_id=1263920118 instance=ExtResource("2_46yon")]
+position = Vector2(371, 772)
+
+[node name="Unit15" parent="Units" unique_id=767394940 instance=ExtResource("2_46yon")]
+position = Vector2(944, 706)
+
+[node name="Unit16" parent="Units" unique_id=2134794476 instance=ExtResource("2_46yon")]
+position = Vector2(1303, 472)
+
+[node name="Unit17" parent="Units" unique_id=1417973739 instance=ExtResource("2_46yon")]
+position = Vector2(1021, 229)
 
 [node name="Terrain" type="Node2D" parent="." unique_id=786048734]
 

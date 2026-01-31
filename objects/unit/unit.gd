@@ -7,8 +7,8 @@ const Teams = preload("res://main/teams.gd").Teams
 @export var currentState: UnitState = UnitState.IDLE
 @export var team: Teams = Teams.BLUE
 
-
-var movement_speed = 100.0
+var movement_group = null
+var movement_speed = 300.0
 var target: Vector2 = Vector2(0,0)
 
 @onready var navigation_agent = $NavigationAgent2D
@@ -32,10 +32,13 @@ func _physics_process(delta: float) -> void:
 	else:
 		# idle if nothing to do
 		set_state(UnitState.IDLE)
+		navigation_agent.avoidance_priority = 0.4
 		
-		
-	
-
+	for i in get_slide_collision_count():
+		var c = get_slide_collision(i)
+		if c.get_collider() is CharacterBody2D:
+			if c.get_collider().currentState == UnitState.IDLE:
+				set_state(UnitState.IDLE)
 
 func pathfinfing_setup():
 	await get_tree().physics_frame
@@ -52,13 +55,24 @@ func set_destination(pos: Vector2):
 	if pos != Vector2(0,0):
 		navigation_agent.target_position = pos
 		$TargetPositionMark.position = pos
-		await navigation_agent.path_changed
 		set_state(UnitState.MOVE)
+		navigation_agent.avoidance_priority = 1
 		
-		print("i am ",get_name(), " and my path length is: ", str(get_path_length()))
-
-
+func set_movement_group(group):
+	if movement_group == group:
+		return
+	# Leave old group first
+	if movement_group != null:
+		if is_instance_valid(movement_group):
+			movement_group.get_ref().remove_unit(self)
+	print(movement_group)
+	movement_group = group
+	
 func set_state(state: UnitState):
+	if state == UnitState.IDLE:
+		if(movement_group!=null && is_instance_valid(movement_group)):
+			movement_group.get_ref().remove_unit(self)
+			movement_group = null
 	$StateDebug.text = "STATE: " + str(UnitState.keys()[state])
 	currentState = state
 	

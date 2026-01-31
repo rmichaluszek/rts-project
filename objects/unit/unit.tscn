@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cawmyoewfvh4l" path="res://objects/unit/unit.gd" id="1_wgm2u"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wgm2u"]
-radius = 61.13101
+radius = 53.037724
 
 [node name="Unit" type="CharacterBody2D" unique_id=277028235]
 script = ExtResource("1_wgm2u")
@@ -42,6 +42,8 @@ avoidance_enabled = true
 radius = 70.0
 neighbor_distance = 300.0
 max_neighbors = 20
+time_horizon_agents = 5.0
+max_speed = 300.0
 
 [node name="TargetPositionMark" type="Sprite2D" parent="." unique_id=1533393162]
 visible = false
@@ -49,5 +51,34 @@ modulate = Color(0, 1, 0, 1)
 top_level = true
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_3kuh8")
+
+[node name="Avoidance" type="Node2D" parent="." unique_id=312786671]
+
+[node name="Front" type="RayCast2D" parent="Avoidance" unique_id=1816073112]
+target_position = Vector2(250, 0)
+
+[node name="Left" type="RayCast2D" parent="Avoidance" unique_id=1387842250]
+rotation = -0.5235988
+target_position = Vector2(250, 0)
+
+[node name="Left2" type="RayCast2D" parent="Avoidance" unique_id=447209368]
+rotation = -1.0471976
+target_position = Vector2(250, 0)
+
+[node name="Left3" type="RayCast2D" parent="Avoidance" unique_id=706021782]
+rotation = -1.5707964
+target_position = Vector2(250, 0)
+
+[node name="Right" type="RayCast2D" parent="Avoidance" unique_id=1189070207]
+rotation = 0.5235988
+target_position = Vector2(250, 0)
+
+[node name="Right2" type="RayCast2D" parent="Avoidance" unique_id=1371034252]
+rotation = 1.0471976
+target_position = Vector2(200, 0)
+
+[node name="Right3" type="RayCast2D" parent="Avoidance" unique_id=506157530]
+rotation = 1.5707964
+target_position = Vector2(200, 0)
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

@@ -40,7 +40,7 @@ func _input(event):
 				pass
 				
 func select(rect:Vector4):
-	var array : Array  = []
+	var array : Array[Node]  = []
 	
 	# swap if the rect is drawn from right to left / down to bottom
 	if rect.x > rect.z: 
