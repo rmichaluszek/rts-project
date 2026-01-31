@@ -27,7 +27,6 @@ func mark_unit_as_finished(unit):
 		if units[u] == unit:
 			unitsFinished.push_back(unit)
 			units.remove_at(u)
-			print("removed ", unit)
 			check_for_disband()
 			return
 
@@ -36,5 +35,4 @@ func remove_unit(unit: Node):
 	check_for_disband()
 	
 func disband():
-	print("autodestrukcja")
 	queue_free()

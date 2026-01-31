@@ -39,7 +39,6 @@ func _physics_process(delta: float) -> void:
 		if c.get_collider() is CharacterBody2D:
 			if is_instance_valid(movement_group.get_ref()) && is_instance_valid(c.get_collider().movement_group):
 				var units = movement_group.get_ref().unitsFinished
-				print("finished ",units)
 				for u in units:
 					if u==c.get_collider():
 						set_state(UnitState.IDLE)
