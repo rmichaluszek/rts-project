@@ -14,6 +14,8 @@ var selecting: bool = false
 var select_start: Vector2
 
 
+var select_safezone = 40 # dont have to select exactly center of units, it can be +/- 40 pixels
+
 func _ready() -> void:
 	set_process_unhandled_input(true)
 	
@@ -25,8 +27,6 @@ func _unhandled_input(event):
 			self.zoom = (self.zoom - Vector2(zoom_step, zoom_step)).clamp(Vector2(min_zoom, min_zoom), Vector2(max_zoom, max_zoom))
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
 			self.zoom = (self.zoom + Vector2(zoom_step, zoom_step)).clamp(Vector2(min_zoom, min_zoom), Vector2(max_zoom, max_zoom))
-
-func _input(event):
 
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_MIDDLE:
@@ -50,6 +50,7 @@ func _input(event):
 				# if clicked on unit or building, move command and try to attack/interact,
 			else:
 				pass
+
 				
 func select(rect:Vector4):
 	var array : Array[Node]  = []
@@ -65,7 +66,7 @@ func select(rect:Vector4):
 		rect.w = temp
 		
 	for u in get_parent().get_node("Units").get_children():
-		if u.position.x >= rect.x && u.position.x < rect.z && u.position.y > rect.y && u.position.y < rect.w:
+		if u.position.x+select_safezone >= rect.x && u.position.x-select_safezone < rect.z && u.position.y+select_safezone > rect.y && u.position.y-select_safezone< rect.w:
 			array.push_back(u)
 	get_parent().get_node("GroupManager").set_selected_units(array)
 

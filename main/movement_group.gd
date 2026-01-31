@@ -31,7 +31,9 @@ func mark_unit_as_finished(unit):
 			return
 
 func remove_unit(unit: Node):
-	units.erase(unit)
+	for u in units:
+		if u.get_ref() == unit:
+			units.erase(u)
 	check_for_disband()
 	
 func disband():
