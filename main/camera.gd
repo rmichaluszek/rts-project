@@ -14,6 +14,18 @@ var selecting: bool = false
 var select_start: Vector2
 
 
+func _ready() -> void:
+	set_process_unhandled_input(true)
+	
+func _unhandled_input(event):
+	# zoom
+	
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
+			self.zoom = (self.zoom - Vector2(zoom_step, zoom_step)).clamp(Vector2(min_zoom, min_zoom), Vector2(max_zoom, max_zoom))
+		elif event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
+			self.zoom = (self.zoom + Vector2(zoom_step, zoom_step)).clamp(Vector2(min_zoom, min_zoom), Vector2(max_zoom, max_zoom))
+
 func _input(event):
 
 	if event is InputEventMouseButton:
@@ -84,11 +96,3 @@ func _process(delta):
 	if self.position.y < camera_safezone.y: self.position.y = camera_safezone.y
 	if self.position.x > camera_safezone.z: self.position.x = camera_safezone.z
 	if self.position.y > camera_safezone.w: self.position.y = camera_safezone.w
-	
-	
-	# zoom
-	
-	if Input.is_action_just_pressed("scroll_down"):
-		self.zoom = (self.zoom - Vector2(zoom_step, zoom_step)).clamp(Vector2(min_zoom, min_zoom), Vector2(max_zoom, max_zoom))
-	elif Input.is_action_just_pressed("scroll_up"):
-		self.zoom = (self.zoom + Vector2(zoom_step, zoom_step)).clamp(Vector2(min_zoom, min_zoom), Vector2(max_zoom, max_zoom))
