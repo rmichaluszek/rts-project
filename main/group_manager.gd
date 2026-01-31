@@ -3,6 +3,7 @@ extends Node2D
 const Teams = preload("res://main/teams.gd").Teams
 
 var current_selected_units: Array[Node] = []
+var current_selected_unit: Node # with tab we can cycle trough units in selection and apply commands only to them
 
 func _ready() -> void:
 	pass
@@ -20,6 +21,8 @@ func move_command(pos):
 
 func set_selected_units(array: Array[Node]):
 	current_selected_units = []
+	current_selected_unit = null
+
 	for u in get_parent().get_node("Units").get_children():
 		u.set_selected(false)
 	
@@ -27,4 +30,12 @@ func set_selected_units(array: Array[Node]):
 		if u.team == get_parent().my_team:
 			u.set_selected(true)
 			current_selected_units.push_back(u)
+	if(current_selected_units!=[]):
+		display_unit()
 	
+func display_unit():
+	var unit = current_selected_unit
+	if !unit: unit = current_selected_units[0] # there is no cycled or highlighted unit in the selection so we display the first one in group
+	# display first one in the gui
+	print(unit)
+	get_parent().get_node("GUI").display_unit(weakref(unit))

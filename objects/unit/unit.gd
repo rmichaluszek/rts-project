@@ -8,6 +8,12 @@ const Teams = preload("res://main/teams.gd").Teams
 @export var team: Teams = Teams.BLUE
 
 var movement_group = null
+
+var unit_name = "Gunner Bot"
+var max_health = 100
+var health = 100
+var range = 200
+var damage = 5
 var movement_speed = 300.0
 var target: Vector2 = Vector2(0,0)
 
@@ -18,7 +24,7 @@ func _ready() -> void:
 	call_deferred("pathfinfing_setup")
 
 func _physics_process(delta: float) -> void:
-	
+
 	var new_velocity = Vector2(0,0)
 	if !navigation_agent.is_navigation_finished():
 		var next_agent_position = navigation_agent.get_next_path_position()

@@ -10,7 +10,10 @@ extends CanvasLayer
 func _ready() -> void:
 	pass # Replace with function body.
 
+func display_unit(unit_ref: WeakRef):
+	unit_info_gui.show_unit(unit_ref)
 
+	
 func update_time(time):
 	var total_seconds := int(time)
 	var minutes := total_seconds / 60
@@ -24,6 +27,6 @@ func update_resources(metal,oil,crystal,metal_income,oil_income,crystal_income):
 	resources_gui.get_node("Container/LabelOilIncome").text = "+"+str(oil_income)
 	resources_gui.get_node("Container/LabelCrystal").text = str(floori(crystal))
 	resources_gui.get_node("Container/LabelCrystalIncome").text = "+"+str(crystal_income)
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(delta: float) -> void:
 	pass
