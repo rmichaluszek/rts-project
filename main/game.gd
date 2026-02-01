@@ -14,12 +14,17 @@ var crystal = 0
 var crystal_income = 1
 
 var my_team: Teams = Teams.BLUE
-	
+
+var gui_update_time_left = 0
+var gui_update_time_frequency = 1.
+
 func _ready() -> void:
 	pass
 
 func _process(delta: float) -> void:
 	time += delta
+	
+	gui_node.update_gui()
 	
 	metal += delta*metal_income/10
 	oil += delta*oil_income/10
