@@ -3,7 +3,7 @@ extends Node2D
 const Teams = preload("res://main/teams.gd").Teams
 
 var current_selected_units: Array[WeakRef] = []
-var current_highlighted_unit: WeakRef # with tab we can cycle trough units in selection and apply commands only to them
+var current_highlighted_unit: WeakRef = null # with tab we can cycle trough units in selection and apply commands only to them
 
 func _ready() -> void:
 	pass
@@ -14,9 +14,16 @@ func _process(delta: float) -> void:
 func move_command(pos):
 	if(current_selected_units!=[]):
 		var group := MovementGroup.new()
-		group.setup(current_selected_units, pos)
-		for u in range(0,current_selected_units.size()):
-			current_selected_units[u].get_ref().set_destination(pos)
+		if(current_highlighted_unit!=null):
+			var array: Array[WeakRef] = [current_highlighted_unit]
+			group.setup(array, pos)
+			current_highlighted_unit.get_ref().set_destination(pos)
+		else:
+			group.setup(current_selected_units, pos)
+		
+		
+			for u in range(0,current_selected_units.size()):
+				current_selected_units[u].get_ref().set_destination(pos)
 
 
 func set_selected_units(array: Array[Node]):
@@ -40,8 +47,8 @@ func highlight_unit(unit_ref):
 		u.get_ref().set_highlighted(false)
 		if u.get_ref() == unit_ref.get_ref():
 			current_highlighted_unit = u
-	current_highlighted_unit.get_ref().set_highlighted(true)
-	get_parent().get_node("GUI").set_highlighted_unit(unit_ref)
+			current_highlighted_unit.get_ref().set_highlighted(true)
+			get_parent().get_node("GUI").set_highlighted_unit(unit_ref)
 
 func display_unit():
 	var unit = current_highlighted_unit
