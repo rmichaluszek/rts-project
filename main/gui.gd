@@ -23,7 +23,7 @@ func update_time(time):
 	time_gui.get_node("Label").text = "%02d:%02d" % [minutes, seconds]
 	
 	
-	$Screen/Time/Fps.text = str(Engine.get_frames_per_second())
+	$Screen/Time/Fps.text = "FPS:"+str(int(Engine.get_frames_per_second()))
 	
 func update_resources(metal,oil,crystal,metal_income,oil_income,crystal_income):
 	resources_gui.get_node("Container/LabelMetal").text = str(floori(metal))

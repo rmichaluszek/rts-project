@@ -20,6 +20,7 @@ func show_unit(unit_ref: WeakRef):
 		$NameLabel.text = unit_ref.get_ref().unit_name
 		
 func _process(delta: float) -> void:
+	
 	if(is_instance_valid(currentUnitDisplayedRef)):
 		$HealthAmountLabel.text = str(int(currentUnitDisplayedRef.get_ref().health))
 	else: # unit is probably dead, stop displaying it

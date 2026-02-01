@@ -17,7 +17,6 @@ func _draw():
 	var resolution = DisplayServer.window_get_size()
 	resolution.x /= camera.zoom.x
 	resolution.y /= camera.zoom.y
-	print(resolution)
 	draw_rect(Rect2(camera.position.x/64-resolution.x/2/64,camera.position.y/64-resolution.y/2/64,resolution.x/64,resolution.y/64),Color.WHITE,false)
 	
 func _process(delta: float) -> void:
@@ -30,6 +29,11 @@ func _on_gui_input(event: InputEvent) -> void:
 			holding_left_click = true
 		elif event.button_index == 1 and !event.pressed:
 			holding_left_click = false
+			
+		if event.button_index == 2 and event.pressed:
+			event.position *= Vector2(64,64)
+			get_parent().get_parent().get_parent().get_node("Camera").process_move_command(event.position)
+
 			
 	if event is InputEventMouseMotion:
 		if(holding_left_click):

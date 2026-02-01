@@ -46,7 +46,7 @@ func _unhandled_input(event):
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			if event.pressed:
 				# if clicked on the ground, there is move command
-				get_parent().get_node("GroupManager").move_command(get_global_mouse_position())
+				process_move_command(get_global_mouse_position())
 				# if clicked on unit or building, move command and try to attack/interact,
 			else:
 				pass
@@ -76,6 +76,9 @@ func _draw() -> void:
 
 func set_camera_target(pos):
 	position=pos
+	
+func process_move_command(pos):
+	get_parent().get_node("GroupManager").move_command(pos)
 
 func _process(delta):
 	
