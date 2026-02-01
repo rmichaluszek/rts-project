@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://csfjkfhv4p4x1"]
+
+[ext_resource type="Texture2D" uid="uid://b08fvofohqolu" path="res://icon.svg" id="1_almu3"]
+
+[node name="UnitItem" type="TextureRect" unique_id=521702725]
+clip_contents = true
+custom_minimum_size = Vector2(100, 100)
+texture = ExtResource("1_almu3")
+expand_mode = 2
+stretch_mode = 5

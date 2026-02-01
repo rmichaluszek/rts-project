@@ -74,6 +74,9 @@ func _draw() -> void:
 	if(selecting):
 		draw_rect(Rect2(select_start-position,get_global_mouse_position()-select_start),Color(0.255, 0.475, 1.0, 0.439))
 
+func set_camera_target(pos):
+	position=pos
+
 func _process(delta):
 	
 	var input_vector = Vector2.ZERO
