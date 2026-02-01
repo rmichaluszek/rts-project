@@ -1,10 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://djbmedhi4e1c2"]
+[gd_scene format=3 uid="uid://djbmedhi4e1c2"]
 
 [ext_resource type="Texture2D" uid="uid://b08fvofohqolu" path="res://icon.svg" id="1_a26bb"]
+[ext_resource type="Script" uid="uid://c2g6y37s624d3" path="res://objects/gui/units_selected_item.gd" id="2_1r6fl"]
 
-[node name="Unit0" type="TextureRect"]
+[node name="Unit" type="TextureRect" unique_id=1929367231]
 clip_contents = true
 custom_minimum_size = Vector2(100, 100)
 texture = ExtResource("1_a26bb")
 expand_mode = 2
-stretch_mode = 5
+stretch_mode = 1
+script = ExtResource("2_1r6fl")
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

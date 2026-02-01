@@ -2,6 +2,32 @@
 
 [ext_resource type="Texture2D" uid="uid://b08fvofohqolu" path="res://icon.svg" id="1_3kuh8"]
 [ext_resource type="Script" uid="uid://cawmyoewfvh4l" path="res://objects/unit/unit.gd" id="1_wgm2u"]
+[ext_resource type="Shader" uid="uid://cxwlng4803h7f" path="res://assets/resources/outline.gdshader" id="3_b2lhh"]
+[ext_resource type="Shader" uid="uid://cdl6psum6o3j5" path="res://assets/resources/outline_highlighted.gdshader" id="4_xwdfs"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cpfsc"]
+shader = ExtResource("3_b2lhh")
+shader_parameter/allow_out_of_bounds = true
+shader_parameter/outline_thickness = 5.0
+shader_parameter/outline_color = Color(0, 1, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xwdfs"]
+shader = ExtResource("3_b2lhh")
+shader_parameter/allow_out_of_bounds = true
+shader_parameter/outline_thickness = 8.0
+shader_parameter/outline_color = Color(0, 1, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_natpw"]
+shader = ExtResource("4_xwdfs")
+shader_parameter/allow_out_of_bounds = true
+shader_parameter/outline_thickness = 5.0
+shader_parameter/outline_color = Color(0, 1, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b2lhh"]
+shader = ExtResource("4_xwdfs")
+shader_parameter/allow_out_of_bounds = true
+shader_parameter/outline_thickness = 8.0
+shader_parameter/outline_color = Color(0, 1, 1, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wgm2u"]
 radius = 60.033325
@@ -9,18 +35,40 @@ radius = 60.033325
 [node name="Unit" type="CharacterBody2D" unique_id=277028235]
 script = ExtResource("1_wgm2u")
 
-[node name="Selected" type="Sprite2D" parent="." unique_id=843893369]
+[node name="Body" type="CanvasGroup" parent="." unique_id=897150981]
+
+[node name="LowerBody" type="Sprite2D" parent="Body" unique_id=1656280255]
+texture = ExtResource("1_3kuh8")
+
+[node name="OutlineSelected" type="Sprite2D" parent="Body/LowerBody" unique_id=439354229]
 visible = false
-modulate = Color(0.10980392, 1, 0, 1)
-scale = Vector2(1.2731086, 1.2731086)
+z_index = -1
+material = SubResource("ShaderMaterial_cpfsc")
 texture = ExtResource("1_3kuh8")
 
-[node name="LowerBody" type="Sprite2D" parent="." unique_id=1656280255]
+[node name="OutlineHighlighted" type="Sprite2D" parent="Body/LowerBody" unique_id=1569470686]
+visible = false
+z_index = -1
+material = SubResource("ShaderMaterial_xwdfs")
 texture = ExtResource("1_3kuh8")
 
-[node name="UpperBody" type="Sprite2D" parent="." unique_id=1129787732]
+[node name="UpperBody" type="Sprite2D" parent="Body" unique_id=1129787732]
 self_modulate = Color(0.34117648, 0.5176471, 1, 1)
 scale = Vector2(0.546875, 0.546875)
+texture = ExtResource("1_3kuh8")
+
+[node name="OutlineSelected" type="Sprite2D" parent="Body/UpperBody" unique_id=1910715558]
+visible = false
+self_modulate = Color(0.34117648, 0.5176471, 1, 1)
+z_index = -1
+material = SubResource("ShaderMaterial_natpw")
+texture = ExtResource("1_3kuh8")
+
+[node name="OutlineHighlighted" type="Sprite2D" parent="Body/UpperBody" unique_id=16190288]
+visible = false
+self_modulate = Color(0.34117648, 0.5176471, 1, 1)
+z_index = -1
+material = SubResource("ShaderMaterial_b2lhh")
 texture = ExtResource("1_3kuh8")
 
 [node name="StateDebug" type="Label" parent="." unique_id=829137477]
@@ -32,6 +80,7 @@ text = "State: IDLE"
 horizontal_alignment = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=179383426]
+visible = false
 shape = SubResource("CircleShape2D_wgm2u")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=976948394]
@@ -52,6 +101,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_3kuh8")
 
 [node name="Avoidance" type="Node2D" parent="." unique_id=312786671]
+visible = false
 
 [node name="Front" type="RayCast2D" parent="Avoidance" unique_id=1816073112]
 target_position = Vector2(250, 0)

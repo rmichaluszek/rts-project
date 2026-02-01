@@ -35,7 +35,7 @@ func _unhandled_input(event):
 				drag_start = get_global_mouse_position()
 			else:
 				dragging = false
-		if event.button_index == MOUSE_BUTTON_LEFT:
+		elif event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
 				selecting = true
 				select_start = get_global_mouse_position()
@@ -43,7 +43,7 @@ func _unhandled_input(event):
 				selecting = false
 				queue_redraw()
 				select(Vector4(select_start.x,select_start.y,get_global_mouse_position().x,get_global_mouse_position().y))
-		if event.button_index == MOUSE_BUTTON_RIGHT:
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			if event.pressed:
 				# if clicked on the ground, there is move command
 				process_move_command(get_global_mouse_position())

@@ -4,6 +4,7 @@ const UnitState = preload("res://objects/unit/unit_state.gd").UnitState
 const Teams = preload("res://main/teams.gd").Teams
 
 @export var isSelected: bool = false
+@export var isHighlighted: bool = false
 @export var currentState: UnitState = UnitState.IDLE
 @export var team: Teams = Teams.BLUE
 
@@ -100,10 +101,23 @@ func get_path_length():
 func set_selected(selected: bool):
 	isSelected = selected
 	if(isSelected): 
-		$Selected.visible = true
+		$Body/LowerBody/OutlineSelected.visible = true
+		$Body/UpperBody/OutlineSelected.visible = true
 		$TargetPositionMark.visible = true
 	else: 
-		$Selected.visible = false
+		$Body/LowerBody/OutlineSelected.visible = false
+		$Body/UpperBody/OutlineSelected.visible = false
+		$TargetPositionMark.visible = false
+
+func set_highlighted(highlighted: bool):
+	isHighlighted = highlighted
+	if(isHighlighted): 
+		$Body/LowerBody/OutlineHighlighted.visible = true
+		$Body/UpperBody/OutlineHighlighted.visible = true
+		$TargetPositionMark.visible = true
+	else: 
+		$Body/LowerBody/OutlineHighlighted.visible = false
+		$Body/UpperBody/OutlineHighlighted.visible = false
 		$TargetPositionMark.visible = false
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:

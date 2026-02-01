@@ -15,7 +15,10 @@ func display_unit(unit_ref: WeakRef):
 
 func display_units(units_ref_aray: Array[WeakRef]):
 	selection_gui.display_units(units_ref_aray)
-	
+
+func set_highlighted_unit(unit_ref: WeakRef):
+	selection_gui.set_highlighted_unit(unit_ref)
+
 func update_gui():
 	minimap_gui.get_node("Units").queue_redraw()
 

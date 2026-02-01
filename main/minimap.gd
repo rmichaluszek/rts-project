@@ -25,6 +25,7 @@ func _on_gui_input(event: InputEvent) -> void:
 		if event.button_index == 2 and event.pressed:
 			event.position -= Vector2(minimap_margin,minimap_margin)
 			event.position *= Vector2(64,64)
+			print(event)
 			get_parent().get_parent().get_parent().get_node("Camera").process_move_command(event.position)
 
 			

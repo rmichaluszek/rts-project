@@ -171,12 +171,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("8_f7m14")
 
 [node name="Units" type="Control" parent="GUI/Screen/Minimap" unique_id=1683404403]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 1
 script = ExtResource("9_yyuar")
 
 [node name="ActionPanel" type="Panel" parent="GUI/Screen" unique_id=317953994]
