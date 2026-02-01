@@ -122,3 +122,4 @@ func set_highlighted(highlighted: bool):
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity
+	$Body/LowerBody.rotation = ($Body/LowerBody.rotation*2+velocity.angle())/3.
