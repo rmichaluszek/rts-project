@@ -2,10 +2,13 @@
 
 [ext_resource type="Texture2D" uid="uid://b08fvofohqolu" path="res://icon.svg" id="1_3kuh8"]
 [ext_resource type="Script" uid="uid://cawmyoewfvh4l" path="res://objects/unit/unit.gd" id="1_wgm2u"]
-[ext_resource type="Texture2D" uid="uid://dgxw5jdxmm10d" path="res://assets/textures/unit_base_1.png" id="2_cpfsc"]
+[ext_resource type="Texture2D" uid="uid://cwuikwxelc3fa" path="res://assets/textures/unit_base_2.png" id="2_natpw"]
 [ext_resource type="Shader" uid="uid://cxwlng4803h7f" path="res://assets/resources/outline.gdshader" id="3_b2lhh"]
 [ext_resource type="Texture2D" uid="uid://bfl73p8rt3hdx" path="res://assets/textures/unit_turret_1.png" id="4_natpw"]
 [ext_resource type="Shader" uid="uid://cdl6psum6o3j5" path="res://assets/resources/outline_highlighted.gdshader" id="4_xwdfs"]
+[ext_resource type="Script" uid="uid://xu6tn1rjb5kt" path="res://objects/unit/state_machine.gd" id="7_ydrco"]
+[ext_resource type="Script" uid="uid://cyrpcoaw55g5s" path="res://objects/unit/state_idle.gd" id="8_6a40r"]
+[ext_resource type="Script" uid="uid://c6gcjffneikwj" path="res://objects/unit/state_move.gd" id="9_yghlh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cpfsc"]
 shader = ExtResource("3_b2lhh")
@@ -40,20 +43,19 @@ script = ExtResource("1_wgm2u")
 [node name="Body" type="CanvasGroup" parent="." unique_id=897150981]
 
 [node name="LowerBody" type="Sprite2D" parent="Body" unique_id=1656280255]
-self_modulate = Color(0, 1, 1, 1)
-texture = ExtResource("2_cpfsc")
+texture = ExtResource("2_natpw")
 
 [node name="OutlineSelected" type="Sprite2D" parent="Body/LowerBody" unique_id=439354229]
 visible = false
 z_index = -1
 material = SubResource("ShaderMaterial_cpfsc")
-texture = ExtResource("2_cpfsc")
+texture = ExtResource("2_natpw")
 
 [node name="OutlineHighlighted" type="Sprite2D" parent="Body/LowerBody" unique_id=1569470686]
 visible = false
 z_index = -1
 material = SubResource("ShaderMaterial_xwdfs")
-texture = ExtResource("2_cpfsc")
+texture = ExtResource("2_natpw")
 
 [node name="UpperBody" type="Sprite2D" parent="Body" unique_id=1129787732]
 self_modulate = Color(0.34117648, 0.5176471, 1, 1)
@@ -131,5 +133,19 @@ target_position = Vector2(200, 0)
 [node name="Right3" type="RayCast2D" parent="Avoidance" unique_id=506157530]
 rotation = 1.5707964
 target_position = Vector2(200, 0)
+
+[node name="StateMachine" type="Node" parent="." unique_id=860718145 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("7_ydrco")
+initial_state = NodePath("UnitIdle")
+
+[node name="UnitIdle" type="Node" parent="StateMachine" unique_id=1504753005 node_paths=PackedStringArray("state_target")]
+script = ExtResource("8_6a40r")
+state_target = NodePath("../..")
+metadata/_custom_type_script = "uid://cyrpcoaw55g5s"
+
+[node name="UnitMove" type="Node" parent="StateMachine" unique_id=328023136 node_paths=PackedStringArray("state_target")]
+script = ExtResource("9_yghlh")
+state_target = NodePath("../..")
+metadata/_custom_type_script = "uid://c6gcjffneikwj"
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

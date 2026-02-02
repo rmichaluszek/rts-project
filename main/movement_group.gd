@@ -1,8 +1,6 @@
 class_name MovementGroup
 extends Node2D
 
-const UnitState = preload("res://objects/unit/unit_state.gd").UnitState
-
 var units: Array[WeakRef] = []
 var unitsFinished: Array[WeakRef] = []
 var target_position: Vector2
@@ -17,7 +15,7 @@ func setup(units_array: Array, target: Vector2):
 
 func check_for_disband():
 	for u in units:
-		if u.get_ref().currentState != UnitState.IDLE:
+		if u.get_ref().get_node("StateMachine").current_state != UnitIdle:
 			return
 	if is_instance_valid(self):
 		disband()
