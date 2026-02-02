@@ -1,16 +1,16 @@
 extends Node
-class_name Unit_State
+class_name UnitState
 
 signal transitioned
 
-func Enter():
+func _enter():
 	pass
 	
-func Exit():
+func _exit():
 	pass
 	
-func Update(_delta: float):
+func _update(_delta: float):
 	pass
 	
-func PhysicsUpdate(_delta: float):
+func _physics_update(_delta: float):
 	pass

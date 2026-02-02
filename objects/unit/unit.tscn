@@ -6,7 +6,7 @@
 [ext_resource type="Shader" uid="uid://cxwlng4803h7f" path="res://assets/resources/outline.gdshader" id="3_b2lhh"]
 [ext_resource type="Texture2D" uid="uid://bfl73p8rt3hdx" path="res://assets/textures/unit_turret_1.png" id="4_natpw"]
 [ext_resource type="Shader" uid="uid://cdl6psum6o3j5" path="res://assets/resources/outline_highlighted.gdshader" id="4_xwdfs"]
-[ext_resource type="Script" uid="uid://xu6tn1rjb5kt" path="res://objects/unit/state_machine.gd" id="7_ydrco"]
+[ext_resource type="Script" uid="uid://xu6tn1rjb5kt" path="res://main/state_machine.gd" id="7_ydrco"]
 [ext_resource type="Script" uid="uid://cyrpcoaw55g5s" path="res://objects/unit/state_idle.gd" id="8_6a40r"]
 [ext_resource type="Script" uid="uid://c6gcjffneikwj" path="res://objects/unit/state_move.gd" id="9_yghlh"]
 
@@ -136,14 +136,14 @@ target_position = Vector2(200, 0)
 
 [node name="StateMachine" type="Node" parent="." unique_id=860718145 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("7_ydrco")
-initial_state = NodePath("UnitIdle")
+initial_state = NodePath("Idle")
 
-[node name="UnitIdle" type="Node" parent="StateMachine" unique_id=1504753005 node_paths=PackedStringArray("state_target")]
+[node name="Idle" type="Node" parent="StateMachine" unique_id=1504753005 node_paths=PackedStringArray("state_target")]
 script = ExtResource("8_6a40r")
 state_target = NodePath("../..")
 metadata/_custom_type_script = "uid://cyrpcoaw55g5s"
 
-[node name="UnitMove" type="Node" parent="StateMachine" unique_id=328023136 node_paths=PackedStringArray("state_target")]
+[node name="Move" type="Node" parent="StateMachine" unique_id=328023136 node_paths=PackedStringArray("state_target")]
 script = ExtResource("9_yghlh")
 state_target = NodePath("../..")
 metadata/_custom_type_script = "uid://c6gcjffneikwj"

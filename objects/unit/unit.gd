@@ -23,25 +23,18 @@ func _ready() -> void:
 	state_machine = $StateMachine
 	call_deferred("pathfinfing_setup")
 
-func _physics_process(delta: float) -> void:
-
-	pass
-
 func pathfinfing_setup():
 	await get_tree().physics_frame
 
 func set_destination(pos: Vector2):
-	
-	#rename to move command
 	if pos != Vector2(0,0):
 		navigation_agent.target_position = pos
 		$TargetPositionMark.position = pos
-		state_machine.set_state("UnitMove")
+		state_machine.set_state("Move")
 		navigation_agent.avoidance_priority = 1
 		
 func set_movement_group(group):
-	# Leave old group first
-	if movement_group:
+	if movement_group: # Leave old group first
 		if movement_group!=null && is_instance_valid(movement_group.get_ref()):
 			movement_group.get_ref().remove_unit(self)
 	movement_group = group

@@ -1,4 +1,4 @@
-extends Unit_State
+extends UnitState
 class_name UnitIdle
 
 @export var state_target : CharacterBody2D
@@ -6,19 +6,19 @@ class_name UnitIdle
 var turretRotationTime : float
 var turretRotationTarget : int
 
-
 func randomizeTurretRotation():
 	turretRotationTarget = deg_to_rad(randi_range(0,360))
 	turretRotationTime = randf_range(1,3)
 
-func Enter():
+func _enter():
 	randomizeTurretRotation()
 	
-func PhysicsUpdate(_delta: float):
+func _physics_update(_delta: float):
 	if(state_target):
-		state_target.get_node("Body/UpperBody").rotation = (state_target.get_node("Body/UpperBody").rotation*3+turretRotationTarget)/4.
+		state_target.get_node("Body/UpperBody").rotation = (state_target.get_node("Body/UpperBody").rotation*19+turretRotationTarget)/20.
 
-func Update(_delta: float):
+func _update(_delta: float):
 	turretRotationTime-=_delta
 	if turretRotationTime <= 0:
 		randomizeTurretRotation()
+		
