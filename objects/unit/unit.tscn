@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://b08fvofohqolu" path="res://icon.svg" id="1_3kuh8"]
 [ext_resource type="Script" uid="uid://cawmyoewfvh4l" path="res://objects/unit/unit.gd" id="1_wgm2u"]
-[ext_resource type="Texture2D" uid="uid://cwuikwxelc3fa" path="res://assets/textures/unit_base_2.png" id="2_natpw"]
+[ext_resource type="Texture2D" uid="uid://dgxw5jdxmm10d" path="res://assets/textures/unit_base_1.png" id="2_yghlh"]
 [ext_resource type="Shader" uid="uid://cxwlng4803h7f" path="res://assets/resources/outline.gdshader" id="3_b2lhh"]
 [ext_resource type="Texture2D" uid="uid://bfl73p8rt3hdx" path="res://assets/textures/unit_turret_1.png" id="4_natpw"]
 [ext_resource type="Shader" uid="uid://cdl6psum6o3j5" path="res://assets/resources/outline_highlighted.gdshader" id="4_xwdfs"]
@@ -39,26 +39,28 @@ radius = 54.00926
 
 [node name="Unit" type="CharacterBody2D" unique_id=277028235]
 script = ExtResource("1_wgm2u")
+isSelected = null
+isHighlighted = null
+team = null
 
 [node name="Body" type="CanvasGroup" parent="." unique_id=897150981]
 
 [node name="LowerBody" type="Sprite2D" parent="Body" unique_id=1656280255]
-texture = ExtResource("2_natpw")
+texture = ExtResource("2_yghlh")
 
 [node name="OutlineSelected" type="Sprite2D" parent="Body/LowerBody" unique_id=439354229]
 visible = false
 z_index = -1
 material = SubResource("ShaderMaterial_cpfsc")
-texture = ExtResource("2_natpw")
+texture = ExtResource("2_yghlh")
 
 [node name="OutlineHighlighted" type="Sprite2D" parent="Body/LowerBody" unique_id=1569470686]
 visible = false
 z_index = -1
 material = SubResource("ShaderMaterial_xwdfs")
-texture = ExtResource("2_natpw")
+texture = ExtResource("2_yghlh")
 
 [node name="UpperBody" type="Sprite2D" parent="Body" unique_id=1129787732]
-self_modulate = Color(0.34117648, 0.5176471, 1, 1)
 texture = ExtResource("4_natpw")
 
 [node name="OutlineSelected" type="Sprite2D" parent="Body/UpperBody" unique_id=1910715558]
@@ -84,6 +86,7 @@ text = "State: IDLE"
 horizontal_alignment = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=179383426]
+visible = false
 shape = SubResource("CircleShape2D_wgm2u")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=976948394]

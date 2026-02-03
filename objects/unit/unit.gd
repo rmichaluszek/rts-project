@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 const Teams = preload("res://main/teams.gd").Teams
+const TeamColor = preload("res://main/teams.gd").TeamColor
 
 @export var isSelected: bool = false
 @export var isHighlighted: bool = false
@@ -20,6 +21,9 @@ var target: Vector2 = Vector2(0,0)
 @onready var navigation_agent = $NavigationAgent2D
 
 func _ready() -> void:
+	
+	$Body/UpperBody.set_self_modulate(TeamColor[team])
+	
 	state_machine = $StateMachine
 	call_deferred("pathfinfing_setup")
 
