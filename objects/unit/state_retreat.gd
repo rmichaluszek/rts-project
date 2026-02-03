@@ -1,5 +1,5 @@
 extends UnitState
-class_name UnitMove
+class_name UnitRetreat
 
 @export var state_target : CharacterBody2D
 
@@ -10,7 +10,7 @@ func _physics_update(_delta: float):
 	var new_velocity = Vector2(0,0)
 	if !state_target.navigation_agent.is_navigation_finished():
 		var next_agent_position = state_target.navigation_agent.get_next_path_position()
-		new_velocity = state_target.global_position.direction_to(next_agent_position) * state_target.movement_speed
+		new_velocity = state_target.global_position.direction_to(next_agent_position) * state_target.movement_speed*1.5
 		state_target.set_velocity(new_velocity)
 		state_target.move_and_slide()
 	else:

@@ -14,6 +14,7 @@ var crystal = 0
 var crystal_income = 1
 
 var my_team: Teams = Teams.BLUE
+var my_base_location = Vector2(264,264)
 
 var gui_update_time_left = 0
 var gui_update_time_frequency = 1.

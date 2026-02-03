@@ -7,6 +7,7 @@ var map_size = 200
 
 @onready var camera = get_parent().get_parent().get_parent().get_node("Camera")
 
+
 func _ready() -> void:
 	var data = [] 
 	for y in map_size:

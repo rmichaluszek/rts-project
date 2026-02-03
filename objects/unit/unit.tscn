@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://xu6tn1rjb5kt" path="res://main/state_machine.gd" id="7_ydrco"]
 [ext_resource type="Script" uid="uid://cyrpcoaw55g5s" path="res://objects/unit/state_idle.gd" id="8_6a40r"]
 [ext_resource type="Script" uid="uid://c6gcjffneikwj" path="res://objects/unit/state_move.gd" id="9_yghlh"]
+[ext_resource type="Script" uid="uid://dis2b5ee1iknf" path="res://objects/unit/state_retreat.gd" id="10_ftbt5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cpfsc"]
 shader = ExtResource("3_b2lhh")
@@ -38,10 +39,9 @@ shader_parameter/outline_color = Color(0, 1, 1, 1)
 radius = 54.00926
 
 [node name="Unit" type="CharacterBody2D" unique_id=277028235]
+motion_mode = 1
+platform_on_leave = 2
 script = ExtResource("1_wgm2u")
-isSelected = null
-isHighlighted = null
-team = null
 
 [node name="Body" type="CanvasGroup" parent="." unique_id=897150981]
 
@@ -90,9 +90,9 @@ visible = false
 shape = SubResource("CircleShape2D_wgm2u")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=976948394]
+path_desired_distance = 80.0
 target_desired_distance = 50.0
-path_max_distance = 60.0
-avoidance_enabled = true
+path_max_distance = 200.0
 radius = 50.0
 neighbor_distance = 300.0
 max_neighbors = 20
@@ -150,5 +150,10 @@ metadata/_custom_type_script = "uid://cyrpcoaw55g5s"
 script = ExtResource("9_yghlh")
 state_target = NodePath("../..")
 metadata/_custom_type_script = "uid://c6gcjffneikwj"
+
+[node name="Retreat" type="Node" parent="StateMachine" unique_id=660045831 node_paths=PackedStringArray("state_target")]
+script = ExtResource("10_ftbt5")
+state_target = NodePath("../..")
+metadata/_custom_type_script = "uid://dis2b5ee1iknf"
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

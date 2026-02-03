@@ -34,7 +34,6 @@ func on_child_transitioned(state, new_state_name):
 	
 	if new_state == state:
 		return
-	
 	get_parent().get_node("StateDebug").text = "State: " + new_state_name.to_upper()
 		
 	if current_state:

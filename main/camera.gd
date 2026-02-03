@@ -7,16 +7,19 @@ extends Camera2D
 @export var drag_speed: float = 1.0
 @export var camera_safezone: Vector4 = Vector4(0,0,12800,12800)
 
+const Actions = preload("res://main/actions.gd").Actions
 
 var dragging: bool = false
 var drag_start: Vector2
 var selecting: bool = false
 var select_start: Vector2
 
+var current_mouse_action: Dictionary
 
 var select_safezone = 40 # dont have to select exactly center of units, it can be +/- 40 pixels
 
 func _ready() -> void:
+	set_mouse_action("MOVE_AND_ATTACK")
 	set_process_unhandled_input(true)
 	
 func _unhandled_input(event):
@@ -45,12 +48,13 @@ func _unhandled_input(event):
 				select(Vector4(select_start.x,select_start.y,get_global_mouse_position().x,get_global_mouse_position().y))
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			if event.pressed:
-				# if clicked on the ground, there is move command
-				process_move_command(get_global_mouse_position())
+				process_action(current_mouse_action,get_global_mouse_position())
 				# if clicked on unit or building, move command and try to attack/interact,
 			else:
 				pass
 
+func set_mouse_action(action_name):
+	current_mouse_action = Actions[action_name]
 				
 func select(rect:Vector4):
 	var array : Array[Node]  = []
@@ -77,8 +81,17 @@ func _draw() -> void:
 func set_camera_target(pos):
 	position=pos
 	
-func process_move_command(pos):
-	get_parent().get_node("GroupManager").move_command(pos)
+func process_action(action,pos=null,unit_ref=null):
+	if(action==Actions["MOVE_AND_ATTACK"]):
+		get_parent().get_node("GroupManager").move_action(pos)
+	elif(action==Actions["SET_TARGET"]):
+		pass
+		get_parent().get_node("GroupManager").move_action(pos)
+	elif(action==Actions["RETREAT"]):
+		get_parent().get_node("GroupManager").retreat_action(get_parent().my_base_location)
+	elif(action==Actions["STOP"]):
+		get_parent().get_node("GroupManager").stop_action()
+	
 
 func _process(delta):
 	

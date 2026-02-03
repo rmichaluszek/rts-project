@@ -15,8 +15,22 @@ var max_health = 100
 var health = 100
 var range = 200
 var damage = 5
-var movement_speed = 300.0
+var movement_speed = 100.0
+
+var attack_on_sight = true
 var target: Vector2 = Vector2(0,0)
+var move_unit_target: WeakRef = null
+var attack_unit_target: WeakRef = null
+
+var my_actions = [
+	"SET_TARGET",
+	"STOP",
+	"ATTACK_ON_SIGHT",
+	null,
+	null,
+	"RETREAT"
+]
+
 
 @onready var navigation_agent = $NavigationAgent2D
 
@@ -30,18 +44,33 @@ func _ready() -> void:
 func pathfinfing_setup():
 	await get_tree().physics_frame
 
-func set_destination(pos: Vector2):
-	if pos != Vector2(0,0):
-		navigation_agent.target_position = pos
-		$TargetPositionMark.position = pos
-		state_machine.set_state("Move")
-		navigation_agent.avoidance_priority = 1
+func move_action(pos: Vector2):
+	if(state_machine.current_state != state_machine.states.get("retreat")):
+		if pos != Vector2(0,0):
+			navigation_agent.target_position = pos
+			$TargetPositionMark.position = pos
+			state_machine.set_state("Move")
+			
+func stop_action():
+	if(state_machine.current_state != state_machine.states.get("retreat")):
+		set_movement_group(null)
+		velocity = Vector2.ZERO
+		navigation_agent.target_position = position
+		state_machine.set_state("Idle")
+			
+func retreat_action(pos: Vector2):
+	if(state_machine.current_state != state_machine.states.get("retreat")):
+		if pos != Vector2(0,0):
+			navigation_agent.target_position = pos
+			$TargetPositionMark.position = pos
+			state_machine.set_state("Retreat")
 		
 func set_movement_group(group):
 	if movement_group: # Leave old group first
 		if movement_group!=null && is_instance_valid(movement_group.get_ref()):
 			movement_group.get_ref().remove_unit(self)
-	movement_group = group
+	if(group):
+		movement_group = group
 
 func set_selected(selected: bool):
 	isSelected = selected

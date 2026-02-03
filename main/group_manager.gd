@@ -10,8 +10,16 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	pass
+	
+func stop_action():
+	if(current_selected_units!=[]):
+		if(current_highlighted_unit!=null):
+			current_highlighted_unit.get_ref().stop_action()
+		else:
+			for u in range(0,current_selected_units.size()):
+				current_selected_units[u].get_ref().stop_action()
 
-func move_command(pos):
+func move_action(pos):
 	if(current_selected_units!=[]):
 		var group := MovementGroup.new()
 		if(current_highlighted_unit!=null):
@@ -23,8 +31,20 @@ func move_command(pos):
 		
 		
 			for u in range(0,current_selected_units.size()):
-				current_selected_units[u].get_ref().set_destination(pos)
+				current_selected_units[u].get_ref().move_action(pos)
 
+func retreat_action(pos):
+	if(current_selected_units!=[]):
+		var group := MovementGroup.new()
+		if(current_highlighted_unit!=null):
+			var array: Array[WeakRef] = [current_highlighted_unit]
+			group.setup(array, pos)
+			current_highlighted_unit.get_ref().set_destination(pos)
+		else:
+			group.setup(current_selected_units, pos)
+		
+			for u in range(0,current_selected_units.size()):
+				current_selected_units[u].get_ref().retreat_action(pos)
 
 func set_selected_units(array: Array[Node]):
 	
@@ -56,5 +76,7 @@ func display_unit():
 		if(current_selected_units.size()>=1):
 			unit = current_selected_units[0] # there is no cycled or highlighted unit in the selection so we display the first one in group
 	# display first one in the gui
-	get_parent().get_node("GUI").display_unit(unit)
-	get_parent().get_node("GUI").display_units(current_selected_units)
+	if(unit):
+		get_parent().get_node("GUI/Screen/ActionPanel").set_actions(unit.get_ref().my_actions)
+		get_parent().get_node("GUI").display_unit(unit)
+		get_parent().get_node("GUI").display_units(current_selected_units)
