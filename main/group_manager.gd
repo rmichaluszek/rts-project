@@ -62,6 +62,16 @@ func set_selected_units(array: Array[Node]):
 
 	display_unit()
 
+func get_avaible_actions():
+	var unit = current_highlighted_unit
+	if !unit: 
+		if(current_selected_units.size()>=1):
+			unit = current_selected_units[0]
+	if(unit):
+		return unit.get_ref().my_actions
+	return [null,null,null,null,null,null]
+
+
 func highlight_unit(unit_ref):
 	for u in current_selected_units:
 		u.get_ref().set_highlighted(false)

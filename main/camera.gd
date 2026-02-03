@@ -9,6 +9,8 @@ extends Camera2D
 
 const Actions = preload("res://main/actions.gd").Actions
 
+var target_cursor = load("res://assets/textures/target_cursor.png")
+
 var dragging: bool = false
 var drag_start: Vector2
 var selecting: bool = false
@@ -19,11 +21,22 @@ var current_mouse_action: Dictionary
 var select_safezone = 40 # dont have to select exactly center of units, it can be +/- 40 pixels
 
 func _ready() -> void:
-	set_mouse_action("MOVE_AND_ATTACK")
 	set_process_unhandled_input(true)
 	
 func _unhandled_input(event):
 	# zoom
+	print(event)
+	if event is InputEventKey:
+		var action
+		if event.keycode==83 && event.pressed == true: # s
+			action = get_parent().get_node("GroupManager").get_avaible_actions()[1]
+		elif event.keycode==65 && event.pressed == true: # a
+			action = get_parent().get_node("GroupManager").get_avaible_actions()[0]
+		if action:
+			if(Actions[action]["requiresTarget"]):
+				set_mouse_action(Actions[action])
+			else:
+				process_action(Actions[action],get_global_mouse_position())
 	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
@@ -40,21 +53,36 @@ func _unhandled_input(event):
 				dragging = false
 		elif event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
-				selecting = true
-				select_start = get_global_mouse_position()
+				if(current_mouse_action!= {}):
+					process_action(current_mouse_action,get_global_mouse_position())
+					select_start = Vector2.ZERO
+					set_mouse_action(null)
+					get_parent().get_node("GUI/Screen/ActionPanel").remove_all_highlights()
+				else:
+					selecting = true
+					select_start = get_global_mouse_position()
 			else:
-				selecting = false
-				queue_redraw()
-				select(Vector4(select_start.x,select_start.y,get_global_mouse_position().x,get_global_mouse_position().y))
+				if select_start != Vector2.ZERO:
+					selecting = false
+					queue_redraw()
+					select(Vector4(select_start.x,select_start.y,get_global_mouse_position().x,get_global_mouse_position().y))
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			if event.pressed:
-				process_action(current_mouse_action,get_global_mouse_position())
+				set_mouse_action(null)
+				get_parent().get_node("GUI/Screen/ActionPanel").remove_all_highlights()
+				process_action(Actions["MOVE_AND_ATTACK"],get_global_mouse_position())
 				# if clicked on unit or building, move command and try to attack/interact,
 			else:
 				pass
 
-func set_mouse_action(action_name):
-	current_mouse_action = Actions[action_name]
+func set_mouse_action(action):
+	if action == null:
+		current_mouse_action = {}
+		Input.set_custom_mouse_cursor(null)
+	else:
+		selecting = false
+		Input.set_custom_mouse_cursor(target_cursor,Input.CURSOR_ARROW,Vector2(16,16))
+		current_mouse_action = action
 				
 func select(rect:Vector4):
 	var array : Array[Node]  = []
@@ -81,16 +109,17 @@ func _draw() -> void:
 func set_camera_target(pos):
 	position=pos
 	
-func process_action(action,pos=null,unit_ref=null):
-	if(action==Actions["MOVE_AND_ATTACK"]):
-		get_parent().get_node("GroupManager").move_action(pos)
-	elif(action==Actions["SET_TARGET"]):
-		pass
-		get_parent().get_node("GroupManager").move_action(pos)
-	elif(action==Actions["RETREAT"]):
-		get_parent().get_node("GroupManager").retreat_action(get_parent().my_base_location)
-	elif(action==Actions["STOP"]):
-		get_parent().get_node("GroupManager").stop_action()
+func process_action(action,pos,unit_ref=null):
+	if(action != null):
+		if(action==Actions["MOVE_AND_ATTACK"]):
+			get_parent().get_node("GroupManager").move_action(pos)
+		elif(action==Actions["SET_TARGET"]):
+			pass
+		elif(action==Actions["RETREAT"]):
+			get_parent().get_node("GroupManager").retreat_action(get_parent().my_base_location)
+		elif(action==Actions["STOP"]):
+			get_parent().get_node("GroupManager").stop_action()
+	
 	
 
 func _process(delta):

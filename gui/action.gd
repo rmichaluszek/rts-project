@@ -9,11 +9,9 @@ func _ready() -> void:
 	set_action(null)
 
 func set_action(action_name,toggled=false):
-	print(action_name)
 	if(!action_name):
 		return
 	current_action = Actions[action_name]
-	print(current_action)
 	if(current_action == {}):
 		return
 	
@@ -42,7 +40,12 @@ func _on_gui_input(event: InputEvent) -> void:
 					if(!isHighlighted):
 						for c in get_parent().get_children():
 							c.set_highlighted(false)
-					set_highlighted(!isHighlighted)
+						set_highlighted(true)
+						get_parent().get_parent().get_parent().get_parent().get_node("Camera").set_mouse_action(current_action)
+					else:
+						set_highlighted(false)
+						get_parent().get_parent().get_parent().get_parent().get_node("Camera").set_mouse_action(null)
+
 
 func set_highlighted(highlighted):
 	if(current_action!={}):
