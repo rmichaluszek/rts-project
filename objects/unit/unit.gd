@@ -3,8 +3,9 @@ extends CharacterBody2D
 const Teams = preload("res://main/teams.gd").Teams
 const TeamColor = preload("res://main/teams.gd").TeamColor
 
-@export var isSelected: bool = false
-@export var isHighlighted: bool = false
+var isSelected: bool = false
+var isHighlighted: bool = false
+var isTargeted: bool = false
 @export var team: Teams = Teams.BLUE
 
 var state_machine : Node
@@ -13,7 +14,7 @@ var movement_group = null
 var unit_name = "Gunner Bot"
 var max_health = 100
 var health = 100
-var attack_range = 200
+var attack_range = 300
 var damage = 5
 var movement_speed = 100.0
 
@@ -80,6 +81,15 @@ func set_movement_group(group):
 			movement_group.get_ref().remove_unit(self)
 	if(group):
 		movement_group = group
+		
+func set_targeted(targeted: bool):
+	isTargeted = targeted
+	if(isTargeted): 
+		$Body/LowerBody/OutlineTargeted.visible = true
+		$Body/UpperBody/OutlineTargeted.visible = true
+	else: 
+		$Body/LowerBody/OutlineTargeted.visible = false
+		$Body/UpperBody/OutlineTargeted.visible = false
 
 func set_selected(selected: bool):
 	isSelected = selected
@@ -87,10 +97,15 @@ func set_selected(selected: bool):
 		$Body/LowerBody/OutlineSelected.visible = true
 		$Body/UpperBody/OutlineSelected.visible = true
 		$TargetPositionMark.visible = true
+		
+		if(attack_unit_target!=null && is_instance_valid(attack_unit_target)):
+			attack_unit_target.get_ref().set_targeted(true)
 	else: 
 		$Body/LowerBody/OutlineSelected.visible = false
 		$Body/UpperBody/OutlineSelected.visible = false
 		$TargetPositionMark.visible = false
+		if(attack_unit_target!=null && is_instance_valid(attack_unit_target)):
+			attack_unit_target.get_ref().set_targeted(false)
 
 func set_highlighted(highlighted: bool):
 	isHighlighted = highlighted
@@ -115,11 +130,16 @@ func _on_attack_range_body_entered(body: Node2D) -> void:
 			if(attack_on_sight):
 				if(attack_unit_target==null):
 					attack_unit_target=weakref(body)
+					if(body.team != get_parent().get_parent().my_team):
+						attack_unit_target.get_ref().set_targeted(true)
 
 
 func _on_attack_range_body_exited(body: Node2D) -> void:
 	if(attack_unit_target!=null && is_instance_valid(attack_unit_target)):
 		if(body == attack_unit_target.get_ref()):
-			if(attack_unit_target!=null):
-				attack_unit_target=null
-				#try to find new target
+			if(body.team != team):
+				if(attack_unit_target!=null):
+					if(body.team != get_parent().get_parent().my_team):
+						attack_unit_target.get_ref().set_targeted(false)
+					attack_unit_target=null
+					#try to find new target

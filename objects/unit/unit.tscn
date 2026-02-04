@@ -23,6 +23,12 @@ shader_parameter/allow_out_of_bounds = true
 shader_parameter/outline_thickness = 8.0
 shader_parameter/outline_color = Color(0, 1, 1, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ftbt5"]
+shader = ExtResource("3_b2lhh")
+shader_parameter/allow_out_of_bounds = true
+shader_parameter/outline_thickness = 8.0
+shader_parameter/outline_color = Color(1, 0, 0, 1)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_natpw"]
 shader = ExtResource("4_xwdfs")
 shader_parameter/allow_out_of_bounds = true
@@ -34,6 +40,12 @@ shader = ExtResource("4_xwdfs")
 shader_parameter/allow_out_of_bounds = true
 shader_parameter/outline_thickness = 8.0
 shader_parameter/outline_color = Color(0, 1, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cxq7d"]
+shader = ExtResource("4_xwdfs")
+shader_parameter/allow_out_of_bounds = true
+shader_parameter/outline_thickness = 8.0
+shader_parameter/outline_color = Color(1, 0, 0, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wgm2u"]
 radius = 54.00926
@@ -63,6 +75,12 @@ z_index = -1
 material = SubResource("ShaderMaterial_xwdfs")
 texture = ExtResource("2_yghlh")
 
+[node name="OutlineTargeted" type="Sprite2D" parent="Body/LowerBody" unique_id=1046401159]
+visible = false
+z_index = -1
+material = SubResource("ShaderMaterial_ftbt5")
+texture = ExtResource("2_yghlh")
+
 [node name="UpperBody" type="Sprite2D" parent="Body" unique_id=1129787732]
 texture = ExtResource("4_natpw")
 
@@ -78,6 +96,13 @@ visible = false
 self_modulate = Color(0.34117648, 0.5176471, 1, 1)
 z_index = -1
 material = SubResource("ShaderMaterial_b2lhh")
+texture = ExtResource("4_natpw")
+
+[node name="OutlineTargeted" type="Sprite2D" parent="Body/UpperBody" unique_id=1077480782]
+visible = false
+self_modulate = Color(0.34117648, 0.5176471, 1, 1)
+z_index = -1
+material = SubResource("ShaderMaterial_cxq7d")
 texture = ExtResource("4_natpw")
 
 [node name="StateDebug" type="Label" parent="." unique_id=829137477]
