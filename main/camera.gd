@@ -25,7 +25,6 @@ func _ready() -> void:
 	
 func _unhandled_input(event):
 	# zoom
-	print(event)
 	if event is InputEventKey:
 		var action
 		if event.keycode==83 && event.pressed == true: # s

@@ -13,7 +13,7 @@ var movement_group = null
 var unit_name = "Gunner Bot"
 var max_health = 100
 var health = 100
-var range = 200
+var attack_range = 200
 var damage = 5
 var movement_speed = 100.0
 
@@ -38,11 +38,20 @@ func _ready() -> void:
 	
 	$Body/UpperBody.set_self_modulate(TeamColor[team])
 	
+	$AttackRange/CollisionShape2D.shape.radius = attack_range
 	state_machine = $StateMachine
 	call_deferred("pathfinfing_setup")
+	
+	set_physics_process(true)
 
 func pathfinfing_setup():
 	await get_tree().physics_frame
+	
+func _physics_process(delta: float) -> void:
+	if(attack_unit_target):
+		var last_rotation = $Body/UpperBody.rotation
+		$Body/UpperBody.look_at(attack_unit_target.get_ref().position)
+		$Body/UpperBody.rotation = ($Body/UpperBody.rotation+last_rotation*5)/6.
 
 func move_action(pos: Vector2):
 	if(state_machine.current_state != state_machine.states.get("retreat")):
@@ -97,3 +106,20 @@ func set_highlighted(highlighted: bool):
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity
 	$Body/LowerBody.rotation = ($Body/LowerBody.rotation*2+velocity.angle())/3.
+
+
+
+func _on_attack_range_body_entered(body: Node2D) -> void:
+	if(body!= self):
+		if(body.team != team):
+			if(attack_on_sight):
+				if(attack_unit_target==null):
+					attack_unit_target=weakref(body)
+
+
+func _on_attack_range_body_exited(body: Node2D) -> void:
+	if(attack_unit_target!=null && is_instance_valid(attack_unit_target)):
+		if(body == attack_unit_target.get_ref()):
+			if(attack_unit_target!=null):
+				attack_unit_target=null
+				#try to find new target

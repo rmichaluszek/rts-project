@@ -15,7 +15,7 @@ func show_unit(unit_ref: WeakRef):
 			c.visible = true
 		currentUnitDisplayedRef = unit_ref
 		$DamageAmountLabel.text = str(int(unit_ref.get_ref().damage))
-		$RangeAmountLabel.text = str(int(unit_ref.get_ref().range))
+		$RangeAmountLabel.text = str(int(unit_ref.get_ref().attack_range))
 		$SpeedAmountLabel.text = str(int(unit_ref.get_ref().movement_speed))
 		$NameLabel.text = unit_ref.get_ref().unit_name
 		

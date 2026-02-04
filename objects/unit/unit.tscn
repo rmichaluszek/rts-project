@@ -38,6 +38,9 @@ shader_parameter/outline_color = Color(0, 1, 1, 1)
 [sub_resource type="CircleShape2D" id="CircleShape2D_wgm2u"]
 radius = 54.00926
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ftbt5"]
+radius = 200.0
+
 [node name="Unit" type="CharacterBody2D" unique_id=277028235]
 motion_mode = 1
 platform_on_leave = 2
@@ -156,4 +159,12 @@ script = ExtResource("10_ftbt5")
 state_target = NodePath("../..")
 metadata/_custom_type_script = "uid://dis2b5ee1iknf"
 
+[node name="AttackRange" type="Area2D" parent="." unique_id=551757784]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange" unique_id=111271784]
+shape = SubResource("CircleShape2D_ftbt5")
+
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="body_entered" from="AttackRange" to="." method="_on_attack_range_body_entered"]
+[connection signal="body_exited" from="AttackRange" to="." method="_on_attack_range_body_exited"]

@@ -15,7 +15,8 @@ func _enter():
 	
 func _physics_update(_delta: float):
 	if(state_target):
-		state_target.get_node("Body/UpperBody").rotation = (state_target.get_node("Body/UpperBody").rotation*19+turretRotationTarget)/20.
+		if(get_parent().get_parent().attack_unit_target==null):
+			state_target.get_node("Body/UpperBody").rotation = (state_target.get_node("Body/UpperBody").rotation*19+turretRotationTarget)/20.
 
 func _update(_delta: float):
 	turretRotationTime-=_delta
