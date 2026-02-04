@@ -29,12 +29,17 @@ func _unhandled_input(event):
 		var action
 		if event.keycode==83 && event.pressed == true: # s
 			action = get_parent().get_node("GroupManager").get_avaible_actions()[1]
+			get_parent().get_node("GUI/Screen/ActionPanel").set_highlighted(1)
 		elif event.keycode==65 && event.pressed == true: # a
 			action = get_parent().get_node("GroupManager").get_avaible_actions()[0]
+			get_parent().get_node("GUI/Screen/ActionPanel").set_highlighted(0)
 		if action:
+			
 			if(Actions[action]["requiresTarget"]):
 				set_mouse_action(Actions[action])
 			else:
+				set_mouse_action(null)
+				get_parent().get_node("GUI/Screen/ActionPanel").remove_all_highlights()
 				process_action(Actions[action],get_global_mouse_position())
 	
 	if event is InputEventMouseButton:

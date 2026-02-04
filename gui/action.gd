@@ -35,6 +35,9 @@ func _on_gui_input(event: InputEvent) -> void:
 				# set mouse command to the action command if its not toggable or requires a target
 				
 				if(!current_action["requiresTarget"]):
+					get_parent().get_parent().get_parent().get_parent().get_node("Camera").set_mouse_action(null)
+					for c in get_parent().get_children():
+							c.set_highlighted(false)
 					get_parent().get_parent().get_parent().get_parent().get_node("Camera").process_action(current_action,null)
 				else:
 					if(!isHighlighted):
