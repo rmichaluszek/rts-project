@@ -10,13 +10,14 @@ func setup(units_array: Array, target: Vector2):
 	units = units_array.duplicate()
 	var self_weakref = weakref(self)
 	for unit in units:
-		if is_instance_valid(unit):
+		if is_instance_valid(unit) && unit.get_ref() != null:
 			unit.get_ref().set_movement_group(self_weakref)
 
 func check_for_disband():
 	for u in units:
-		if u.get_ref().get_node("StateMachine").current_state != UnitIdle:
-			return
+		if(is_instance_valid(u) && u.get_ref()!=null):
+			if u.get_ref().get_node("StateMachine").current_state != UnitIdle:
+				return
 	if is_instance_valid(self):
 		disband()
 

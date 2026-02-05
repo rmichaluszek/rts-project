@@ -54,7 +54,7 @@ func pathfinfing_setup():
 	
 func _physics_process(delta: float) -> void:
 	$Body/LowerBody.rotation = (velocity.angle()+$Body/LowerBody.rotation*4)/5.
-	if(attack_unit_target):
+	if(attack_unit_target && attack_unit_target.get_ref()!=null):
 		attack_cooldown_left-=delta
 		if(attack_cooldown_left<=0):
 			attack_cooldown_left = attack_cooldown
@@ -68,6 +68,9 @@ func _physics_process(delta: float) -> void:
 		var last_rotation = $Body/UpperBody.rotation
 		$Body/UpperBody.look_at(attack_unit_target.get_ref().position)
 		$Body/UpperBody.rotation = ($Body/UpperBody.rotation+last_rotation*5)/6.
+	else:
+		attack_unit_target = null
+		find_closest_target()
 
 func move_action(pos: Vector2):
 	if(state_machine.current_state != state_machine.states.get("retreat")):
@@ -113,13 +116,13 @@ func set_selected(selected: bool):
 		$Body/UpperBody/OutlineSelected.visible = true
 		$TargetPositionMark.visible = true
 		
-		if(attack_unit_target!=null && is_instance_valid(attack_unit_target)):
+		if(is_instance_valid(attack_unit_target) && attack_unit_target.get_ref()!=null):
 			attack_unit_target.get_ref().set_targeted(true)
 	else: 
 		$Body/LowerBody/OutlineSelected.visible = false
 		$Body/UpperBody/OutlineSelected.visible = false
 		$TargetPositionMark.visible = false
-		if(attack_unit_target!=null && is_instance_valid(attack_unit_target)):
+		if(is_instance_valid(attack_unit_target) && attack_unit_target.get_ref()!=null):
 			attack_unit_target.get_ref().set_targeted(false)
 
 func set_highlighted(highlighted: bool):
@@ -150,7 +153,30 @@ func _on_attack_range_body_entered(body: Node2D) -> void:
 
 func get_damage(amount):
 	health-=amount
+	if(health<=0):
+		queue_free()
+		$DeathParticles.finished.connect($DeathParticles.queue_free)
+		$DeathParticles.emitting = true
+		$DeathParticles.reparent(get_parent().get_parent())
 	# play damage animation
+	
+func find_closest_target():
+	var bodies = $AttackRange.get_overlapping_bodies()
+	var closest_body = null
+	for b in bodies:
+		if closest_body == null:
+			if(b.team != team):
+				if(attack_on_sight):
+					closest_body = b
+		elif global_position.distance_to(b.global_position) < global_position.distance_to(closest_body.global_position):
+			if(b.team != team):
+				if(attack_on_sight):
+					closest_body = b
+	if(closest_body):
+		attack_unit_target = weakref(closest_body)
+		
+		if(attack_unit_target.get_ref().team != get_parent().get_parent().my_team):
+			attack_unit_target.get_ref().set_targeted(true)
 
 func _on_attack_range_body_exited(body: Node2D) -> void:
 	if(attack_unit_target!=null && is_instance_valid(attack_unit_target)):
@@ -160,4 +186,4 @@ func _on_attack_range_body_exited(body: Node2D) -> void:
 					if(body.team != get_parent().get_parent().my_team):
 						attack_unit_target.get_ref().set_targeted(false)
 					attack_unit_target=null
-					#try to find new target
+					find_closest_target()

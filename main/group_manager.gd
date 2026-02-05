@@ -31,12 +31,13 @@ func move_action(pos):
 		
 		
 			for u in range(0,current_selected_units.size()):
-				current_selected_units[u].get_ref().move_action(pos)
+				if(is_instance_valid(current_selected_units[u]) && current_selected_units[u].get_ref()!=null):
+					current_selected_units[u].get_ref().move_action(pos)
 
 func retreat_action(pos):
 	if(current_selected_units!=[]):
 		var group := MovementGroup.new()
-		if(current_highlighted_unit!=null):
+		if(is_instance_valid(current_highlighted_unit) && current_highlighted_unit.get_ref()!=null):
 			var array: Array[WeakRef] = [current_highlighted_unit]
 			group.setup(array, pos)
 			current_highlighted_unit.get_ref().move_action(pos)
@@ -52,7 +53,7 @@ func set_selected_units(array: Array[Node]):
 	current_highlighted_unit = null
 
 	for u in get_parent().get_node("Units").get_children():
-		u.set_selected(false)
+		u.set_selected(false)!=null
 		u.set_highlighted(false)
 	
 	for u in array:

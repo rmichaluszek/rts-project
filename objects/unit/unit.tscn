@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://cyrpcoaw55g5s" path="res://objects/unit/state_idle.gd" id="8_6a40r"]
 [ext_resource type="Script" uid="uid://c6gcjffneikwj" path="res://objects/unit/state_move.gd" id="9_yghlh"]
 [ext_resource type="Script" uid="uid://dis2b5ee1iknf" path="res://objects/unit/state_retreat.gd" id="10_ftbt5"]
+[ext_resource type="Texture2D" uid="uid://dpe5d3jnt8how" path="res://assets/textures/bullet.png" id="11_cxq7d"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cpfsc"]
 shader = ExtResource("3_b2lhh")
@@ -52,6 +53,10 @@ radius = 54.00926
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ftbt5"]
 radius = 200.0
+
+[sub_resource type="Gradient" id="Gradient_h7u4n"]
+offsets = PackedFloat32Array(0, 0.7839506, 1)
+colors = PackedColorArray(0.78039217, 0.64705884, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 
 [node name="Unit" type="CharacterBody2D" unique_id=277028235]
 motion_mode = 1
@@ -202,6 +207,20 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange" unique_id=111271784]
 shape = SubResource("CircleShape2D_ftbt5")
+
+[node name="DeathParticles" type="CPUParticles2D" parent="." unique_id=1575116158]
+emitting = false
+amount = 50
+texture = ExtResource("11_cxq7d")
+lifetime = 0.51
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 29.7
+initial_velocity_max = 683.16
+color_ramp = SubResource("Gradient_h7u4n")
 
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
 [connection signal="body_entered" from="AttackRange" to="." method="_on_attack_range_body_entered"]
