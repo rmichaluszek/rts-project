@@ -30,7 +30,10 @@ func _process(delta: float) -> void:
 
 func set_highlighted_unit(unit_ref: WeakRef):
 	for c in $ScrollContainer/GridContainer.get_children():
-		c.set_highlighted(c.unit_ref.get_ref() == unit_ref.get_ref())
+		if(is_instance_valid(unit_ref) && unit_ref.get_ref() !=null):
+			c.set_highlighted(c.unit_ref.get_ref() == unit_ref.get_ref())
+		else:
+			c.set_highlighted(false)
 
 func display_units(units_ref_array: Array[WeakRef]):
 	if(units_ref_array==[]): 

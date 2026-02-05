@@ -55,22 +55,32 @@ func pathfinfing_setup():
 func _physics_process(delta: float) -> void:
 	$Body/LowerBody.rotation = (velocity.angle()+$Body/LowerBody.rotation*4)/5.
 	if(attack_unit_target && attack_unit_target.get_ref()!=null):
-		attack_cooldown_left-=delta
-		if(attack_cooldown_left<=0):
-			attack_cooldown_left = attack_cooldown
-			var new_bullet = bullet.instantiate()
-			new_bullet.velocity = Vector2.RIGHT.rotated($Body/UpperBody.rotation)
-			new_bullet.set_position($Body/UpperBody/BulletSpawn.global_position)
-			new_bullet.target = attack_unit_target
-			new_bullet.damage = damage
-			add_child(new_bullet)
-			
-		var last_rotation = $Body/UpperBody.rotation
-		$Body/UpperBody.look_at(attack_unit_target.get_ref().position)
-		$Body/UpperBody.rotation = ($Body/UpperBody.rotation+last_rotation*5)/6.
+		if(global_position.distance_to(attack_unit_target.get_ref().global_position) <= attack_range):
+			attack_cooldown_left-=delta
+			if(attack_cooldown_left<=0):
+				attack_cooldown_left = attack_cooldown
+				var new_bullet = bullet.instantiate()
+				new_bullet.velocity = Vector2.RIGHT.rotated($Body/UpperBody.rotation)
+				new_bullet.set_position($Body/UpperBody/BulletSpawn.global_position)
+				new_bullet.target = attack_unit_target
+				new_bullet.damage = damage
+				add_child(new_bullet)
+				
+			var last_rotation = $Body/UpperBody.rotation
+			$Body/UpperBody.look_at(attack_unit_target.get_ref().position)
+			$Body/UpperBody.rotation = ($Body/UpperBody.rotation+last_rotation*5)/6.
+		else:
+			if(attack_on_sight):
+				attack_unit_target = null
+				find_closest_target()
 	else:
 		attack_unit_target = null
 		find_closest_target()
+		
+	if isSelected:
+		if(attack_unit_target && attack_unit_target.get_ref()!=null):
+			attack_unit_target.get_ref().set_targeted(true)
+		
 
 func move_action(pos: Vector2):
 	if(state_machine.current_state != state_machine.states.get("retreat")):
@@ -85,6 +95,14 @@ func stop_action():
 		velocity = Vector2.ZERO
 		navigation_agent.target_position = position
 		state_machine.set_state("Idle")
+		
+func set_target_action(unit):
+	if(state_machine.current_state != state_machine.states.get("retreat")):
+		if(attack_unit_target):
+			attack_unit_target.get_ref().set_targeted(false)
+		attack_unit_target = unit
+		if(global_position.distance_to(unit.get_ref().global_position) <= attack_range):
+			unit.get_ref().set_targeted(true)
 			
 func retreat_action(pos: Vector2):
 	if(state_machine.current_state != state_machine.states.get("retreat")):
@@ -148,19 +166,25 @@ func _on_attack_range_body_entered(body: Node2D) -> void:
 				if(attack_unit_target==null):
 					attack_cooldown_left = attack_cooldown
 					attack_unit_target=weakref(body)
-					if(body.team != get_parent().get_parent().my_team):
-						attack_unit_target.get_ref().set_targeted(true)
 
 func get_damage(amount):
 	health-=amount
-	if(health<=0):
-		queue_free()
-		$DeathParticles.finished.connect($DeathParticles.queue_free)
-		$DeathParticles.emitting = true
-		$DeathParticles.reparent(get_parent().get_parent())
+	if(health<=0 && health > -200):
+		health = -1000
+		if(is_instance_valid(self)):
+			$DeathParticles.finished.connect($DeathParticles.queue_free)
+			$DeathParticles.emitting = true
+			$DeathParticles.reparent(get_parent().get_parent())
+			if(is_instance_valid(movement_group) && movement_group.get_ref()!=null):
+				movement_group.get_ref().remove_unit(self)
+				
+			get_parent().get_parent().get_node("GroupManager").call_deferred("update_selected_units",self)
+			queue_free()
 	# play damage animation
 	
 func find_closest_target():
+	if(attack_unit_target!=null && is_instance_valid(attack_unit_target)):
+		attack_unit_target.get_ref().set_targeted(false)
 	var bodies = $AttackRange.get_overlapping_bodies()
 	var closest_body = null
 	for b in bodies:

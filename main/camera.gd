@@ -69,7 +69,7 @@ func _unhandled_input(event):
 				if select_start != Vector2.ZERO:
 					selecting = false
 					queue_redraw()
-					select(Vector4(select_start.x,select_start.y,get_global_mouse_position().x,get_global_mouse_position().y))
+					get_parent().get_node("GroupManager").set_selected_units(select(Vector4(select_start.x,select_start.y,get_global_mouse_position().x,get_global_mouse_position().y)))
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			if event.pressed:
 				set_mouse_action(null)
@@ -104,7 +104,7 @@ func select(rect:Vector4):
 	for u in get_parent().get_node("Units").get_children():
 		if u.position.x+select_safezone >= rect.x && u.position.x-select_safezone < rect.z && u.position.y+select_safezone > rect.y && u.position.y-select_safezone< rect.w:
 			array.push_back(u)
-	get_parent().get_node("GroupManager").set_selected_units(array)
+	return array
 
 func _draw() -> void:
 	if(selecting):
@@ -118,7 +118,9 @@ func process_action(action,pos,unit_ref=null):
 		if(action==Actions["MOVE_AND_ATTACK"]):
 			get_parent().get_node("GroupManager").move_action(pos)
 		elif(action==Actions["SET_TARGET"]):
-			pass
+			var targets = select(Vector4(pos.x,pos.y,pos.x,pos.y))
+			if(targets.size()>0):
+				get_parent().get_node("GroupManager").set_target_action(weakref(targets[0]))
 		elif(action==Actions["RETREAT"]):
 			get_parent().get_node("GroupManager").retreat_action(get_parent().my_base_location)
 		elif(action==Actions["STOP"]):
