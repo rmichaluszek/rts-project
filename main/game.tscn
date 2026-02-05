@@ -563,19 +563,19 @@ position = Vector2(857, 763)
 position = Vector2(797, 908)
 
 [node name="Unit6" parent="Units" unique_id=385138929 instance=ExtResource("2_46yon")]
-position = Vector2(2892, 1519)
+position = Vector2(2485, 1452)
 team = 1
 
 [node name="Unit7" parent="Units" unique_id=1138122303 instance=ExtResource("2_46yon")]
-position = Vector2(2698, 1508)
+position = Vector2(2291, 1441)
 team = 1
 
 [node name="Unit8" parent="Units" unique_id=1122958301 instance=ExtResource("2_46yon")]
-position = Vector2(2612, 1340)
+position = Vector2(2205, 1273)
 team = 1
 
 [node name="Unit9" parent="Units" unique_id=1554066396 instance=ExtResource("2_46yon")]
-position = Vector2(2686, 1194)
+position = Vector2(2279, 1127)
 team = 1
 
 [node name="Terrain" type="Node2D" parent="." unique_id=1518003020]

@@ -3,6 +3,8 @@ extends CharacterBody2D
 const Teams = preload("res://main/teams.gd").Teams
 const TeamColor = preload("res://main/teams.gd").TeamColor
 
+var bullet = preload("res://objects/bullet/bullet.tscn")
+
 var isSelected: bool = false
 var isHighlighted: bool = false
 var isTargeted: bool = false
@@ -14,9 +16,11 @@ var movement_group = null
 var unit_name = "Gunner Bot"
 var max_health = 100
 var health = 100
-var attack_range = 300
+var attack_range = 400
 var damage = 5
 var movement_speed = 100.0
+var attack_cooldown = 1.
+var attack_cooldown_left = 0.
 
 var attack_on_sight = true
 var target: Vector2 = Vector2(0,0)
@@ -49,7 +53,18 @@ func pathfinfing_setup():
 	await get_tree().physics_frame
 	
 func _physics_process(delta: float) -> void:
+	$Body/LowerBody.rotation = (velocity.angle()+$Body/LowerBody.rotation*4)/5.
 	if(attack_unit_target):
+		attack_cooldown_left-=delta
+		if(attack_cooldown_left<=0):
+			attack_cooldown_left = attack_cooldown
+			var new_bullet = bullet.instantiate()
+			new_bullet.velocity = Vector2.RIGHT.rotated($Body/UpperBody.rotation)
+			new_bullet.set_position($Body/UpperBody/BulletSpawn.global_position)
+			new_bullet.target = attack_unit_target
+			new_bullet.damage = damage
+			add_child(new_bullet)
+			
 		var last_rotation = $Body/UpperBody.rotation
 		$Body/UpperBody.look_at(attack_unit_target.get_ref().position)
 		$Body/UpperBody.rotation = ($Body/UpperBody.rotation+last_rotation*5)/6.
@@ -123,16 +138,19 @@ func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
 	$Body/LowerBody.rotation = ($Body/LowerBody.rotation*2+velocity.angle())/3.
 
 
-
 func _on_attack_range_body_entered(body: Node2D) -> void:
 	if(body!= self):
 		if(body.team != team):
 			if(attack_on_sight):
 				if(attack_unit_target==null):
+					attack_cooldown_left = attack_cooldown
 					attack_unit_target=weakref(body)
 					if(body.team != get_parent().get_parent().my_team):
 						attack_unit_target.get_ref().set_targeted(true)
 
+func get_damage(amount):
+	health-=amount
+	# play damage animation
 
 func _on_attack_range_body_exited(body: Node2D) -> void:
 	if(attack_unit_target!=null && is_instance_valid(attack_unit_target)):

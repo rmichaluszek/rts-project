@@ -7,6 +7,8 @@ func _enter():
 	pass
 	
 func _physics_update(_delta: float):
+	if(state_target.attack_unit_target==null):
+		state_target.get_node("Body/UpperBody").rotation = (state_target.get_node("Body/UpperBody").rotation*19+state_target.velocity.angle())/20.
 	var new_velocity = Vector2(0,0)
 	if !state_target.navigation_agent.is_navigation_finished():
 		var next_agent_position = state_target.navigation_agent.get_next_path_position()

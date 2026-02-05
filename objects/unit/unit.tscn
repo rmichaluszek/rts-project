@@ -61,49 +61,62 @@ script = ExtResource("1_wgm2u")
 [node name="Body" type="CanvasGroup" parent="." unique_id=897150981]
 
 [node name="LowerBody" type="Sprite2D" parent="Body" unique_id=1656280255]
+z_index = 2
+z_as_relative = false
 texture = ExtResource("2_yghlh")
 
 [node name="OutlineSelected" type="Sprite2D" parent="Body/LowerBody" unique_id=439354229]
 visible = false
-z_index = -1
+z_index = 1
+z_as_relative = false
 material = SubResource("ShaderMaterial_cpfsc")
 texture = ExtResource("2_yghlh")
 
 [node name="OutlineHighlighted" type="Sprite2D" parent="Body/LowerBody" unique_id=1569470686]
 visible = false
-z_index = -1
+z_index = 1
+z_as_relative = false
 material = SubResource("ShaderMaterial_xwdfs")
 texture = ExtResource("2_yghlh")
 
 [node name="OutlineTargeted" type="Sprite2D" parent="Body/LowerBody" unique_id=1046401159]
 visible = false
-z_index = -1
+z_index = 1
+z_as_relative = false
 material = SubResource("ShaderMaterial_ftbt5")
 texture = ExtResource("2_yghlh")
 
 [node name="UpperBody" type="Sprite2D" parent="Body" unique_id=1129787732]
+z_index = 5
+z_as_relative = false
 texture = ExtResource("4_natpw")
 
 [node name="OutlineSelected" type="Sprite2D" parent="Body/UpperBody" unique_id=1910715558]
 visible = false
 self_modulate = Color(0.34117648, 0.5176471, 1, 1)
-z_index = -1
+z_index = 1
+z_as_relative = false
 material = SubResource("ShaderMaterial_natpw")
 texture = ExtResource("4_natpw")
 
 [node name="OutlineHighlighted" type="Sprite2D" parent="Body/UpperBody" unique_id=16190288]
 visible = false
 self_modulate = Color(0.34117648, 0.5176471, 1, 1)
-z_index = -1
+z_index = 1
+z_as_relative = false
 material = SubResource("ShaderMaterial_b2lhh")
 texture = ExtResource("4_natpw")
 
 [node name="OutlineTargeted" type="Sprite2D" parent="Body/UpperBody" unique_id=1077480782]
 visible = false
 self_modulate = Color(0.34117648, 0.5176471, 1, 1)
-z_index = -1
+z_index = 1
+z_as_relative = false
 material = SubResource("ShaderMaterial_cxq7d")
 texture = ExtResource("4_natpw")
+
+[node name="BulletSpawn" type="Node2D" parent="Body/UpperBody" unique_id=1027702222]
+position = Vector2(64, 0)
 
 [node name="StateDebug" type="Label" parent="." unique_id=829137477]
 offset_left = -62.0

@@ -25,7 +25,7 @@ func move_action(pos):
 		if(current_highlighted_unit!=null):
 			var array: Array[WeakRef] = [current_highlighted_unit]
 			group.setup(array, pos)
-			current_highlighted_unit.get_ref().set_destination(pos)
+			current_highlighted_unit.get_ref().move_action(pos)
 		else:
 			group.setup(current_selected_units, pos)
 		
@@ -39,7 +39,7 @@ func retreat_action(pos):
 		if(current_highlighted_unit!=null):
 			var array: Array[WeakRef] = [current_highlighted_unit]
 			group.setup(array, pos)
-			current_highlighted_unit.get_ref().set_destination(pos)
+			current_highlighted_unit.get_ref().move_action(pos)
 		else:
 			group.setup(current_selected_units, pos)
 		
