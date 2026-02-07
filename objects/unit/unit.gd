@@ -27,6 +27,8 @@ var target: Vector2 = Vector2(0,0)
 var move_unit_target: WeakRef = null
 var attack_unit_target: WeakRef = null
 
+var targeted_timeout = 0.1
+
 var my_actions = [
 	"SET_TARGET",
 	"STOP",
@@ -78,9 +80,12 @@ func _physics_process(delta: float) -> void:
 		find_closest_target()
 		
 	if isSelected:
-		if(attack_unit_target && attack_unit_target.get_ref()!=null):
+		if(attack_unit_target!=null && attack_unit_target.get_ref()!=null):
 			attack_unit_target.get_ref().set_targeted(true)
-		
+	
+	targeted_timeout -=delta
+	if(targeted_timeout<=0 && isTargeted):
+		set_targeted(false)
 
 func move_action(pos: Vector2):
 	if(state_machine.current_state != state_machine.states.get("retreat")):
@@ -98,11 +103,7 @@ func stop_action():
 		
 func set_target_action(unit):
 	if(state_machine.current_state != state_machine.states.get("retreat")):
-		if(attack_unit_target):
-			attack_unit_target.get_ref().set_targeted(false)
 		attack_unit_target = unit
-		if(global_position.distance_to(unit.get_ref().global_position) <= attack_range):
-			unit.get_ref().set_targeted(true)
 			
 func retreat_action(pos: Vector2):
 	if(state_machine.current_state != state_machine.states.get("retreat")):
@@ -119,13 +120,15 @@ func set_movement_group(group):
 		movement_group = group
 		
 func set_targeted(targeted: bool):
-	isTargeted = targeted
-	if(isTargeted): 
-		$Body/LowerBody/OutlineTargeted.visible = true
-		$Body/UpperBody/OutlineTargeted.visible = true
-	else: 
-		$Body/LowerBody/OutlineTargeted.visible = false
-		$Body/UpperBody/OutlineTargeted.visible = false
+	if(team != get_parent().get_parent().my_team):
+		isTargeted = targeted
+		if(isTargeted): 
+			targeted_timeout = 0.05
+			$Body/LowerBody/OutlineTargeted.visible = true
+			$Body/UpperBody/OutlineTargeted.visible = true
+		else: 
+			$Body/LowerBody/OutlineTargeted.visible = false
+			$Body/UpperBody/OutlineTargeted.visible = false
 
 func set_selected(selected: bool):
 	isSelected = selected
@@ -133,15 +136,12 @@ func set_selected(selected: bool):
 		$Body/LowerBody/OutlineSelected.visible = true
 		$Body/UpperBody/OutlineSelected.visible = true
 		$TargetPositionMark.visible = true
-		
-		if(is_instance_valid(attack_unit_target) && attack_unit_target.get_ref()!=null):
-			attack_unit_target.get_ref().set_targeted(true)
+
 	else: 
 		$Body/LowerBody/OutlineSelected.visible = false
 		$Body/UpperBody/OutlineSelected.visible = false
 		$TargetPositionMark.visible = false
-		if(is_instance_valid(attack_unit_target) && attack_unit_target.get_ref()!=null):
-			attack_unit_target.get_ref().set_targeted(false)
+
 
 func set_highlighted(highlighted: bool):
 	isHighlighted = highlighted
@@ -183,8 +183,6 @@ func get_damage(amount):
 	# play damage animation
 	
 func find_closest_target():
-	if(attack_unit_target!=null && is_instance_valid(attack_unit_target)):
-		attack_unit_target.get_ref().set_targeted(false)
 	var bodies = $AttackRange.get_overlapping_bodies()
 	var closest_body = null
 	for b in bodies:
@@ -198,16 +196,11 @@ func find_closest_target():
 					closest_body = b
 	if(closest_body):
 		attack_unit_target = weakref(closest_body)
-		
-		if(attack_unit_target.get_ref().team != get_parent().get_parent().my_team):
-			attack_unit_target.get_ref().set_targeted(true)
 
 func _on_attack_range_body_exited(body: Node2D) -> void:
 	if(attack_unit_target!=null && is_instance_valid(attack_unit_target)):
 		if(body == attack_unit_target.get_ref()):
 			if(body.team != team):
 				if(attack_unit_target!=null):
-					if(body.team != get_parent().get_parent().my_team):
-						attack_unit_target.get_ref().set_targeted(false)
 					attack_unit_target=null
 					find_closest_target()
